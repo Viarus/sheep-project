@@ -11,7 +11,7 @@
   width: 700px;
 }
 
-.flex-children {
+.flex-child {
   border: blueviolet solid 1px;
   display: flex;
   flex-basis: 100%;
