@@ -1,0 +1,9 @@
+.field-container {
+  width: 420px;
+  min-height: 200px;
+  background-color: lightgreen;
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-around;*/
+  /*gap: 10px;*/
+}
