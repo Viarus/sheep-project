@@ -1,0 +1,13 @@
+.fields-flex-container {
+  width: 900px;
+  min-height: 500px;
+  background-color: bisque;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.fields-flex-children {
+  display: flex;
+}
