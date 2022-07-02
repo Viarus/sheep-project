@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
-  width: 100%;
+  width: 750px;
 }
 
 .flex-parent {
