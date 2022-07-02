@@ -1,18 +1,23 @@
+/*GLOBAL CSS*/
+
+.margin-top-normal {
+  margin-top: 30px;
+}
+
+/*LOCAL CSS*/
+
 .flexbox-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
 .content-container {
   flex-wrap: wrap;
-  border: darkblue solid 1px;
   display: flex;
-  width: 700px;
+  width: 900px;
 }
 
 .flex-child {
-  border: blueviolet solid 1px;
   display: flex;
   flex-basis: 100%;
 }
