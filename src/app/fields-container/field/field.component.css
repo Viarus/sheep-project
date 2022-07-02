@@ -3,7 +3,48 @@
   min-height: 200px;
   background-color: lightgreen;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  /*justify-content: space-around;*/
-  /*gap: 10px;*/
+  align-items: center;
+}
+
+.field-child {
+  display: flex;
+  width: calc(100% - 30px);
+  justify-content: space-evenly;
+}
+
+.field-child:first-of-type {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.field-title {
+  position: absolute;
+  left: 15px;
+}
+
+.field-branding-button {
+  position: absolute;
+  right: 15px;
+}
+
+.field-mating-row {
+  display: flex;
+}
+
+.female-sheep {
+  display: flex;
+}
+
+.male-sheep {
+  display: flex;
+}
+
+.heart-item {
+  display: flex;
+}
+
+.field-small-sheep {
+
 }
