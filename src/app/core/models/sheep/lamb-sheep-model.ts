@@ -2,7 +2,6 @@ import {AbstractSheep} from "./abstract-sheep-model";
 import {Field} from "../field/field-model";
 import {sheepFactory} from "./sheep-factory";
 import {lambSheepGrowingService} from "../../services/lamb-sheep-growing-service";
-import {toastService} from "../../services/toast-service";
 
 export class LambSheep extends AbstractSheep {
     constructor(name: string, field: Field, isBranded: boolean = false) {
@@ -19,7 +18,7 @@ export class LambSheep extends AbstractSheep {
             try {
                 sheepFactory.createAndAssignSheep(this.getName(), sheepFactory.getRandomAdultSheepGender(), this.getFieldTheSheepIsAssignedTo());
             } catch (e) {
-                toastService.generateError(e.message);
+
             }
             // normally we should identify a specific sheep, but I don't have enough time for that now :)
             this.getFieldTheSheepIsAssignedTo().getLambSheep().pop();

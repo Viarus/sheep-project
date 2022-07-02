@@ -12,12 +12,12 @@ export class FemaleSheep extends AbstractSheep{
     }
 
     public setIsAbleToMate(maleSheep: MaleSheep | null): void{
-        if (this._wasMatingInLast8seconds || this.isBranded()){
+        if (this._wasMatingInLast8seconds || this.getIsBranded()){
             this._isAbleToMate = false;
             return;
         }
         if (!!maleSheep) {
-            if (maleSheep.isBranded()){
+            if (maleSheep.getIsBranded()){
                 this._isAbleToMate = false;
                 return;
             }

@@ -1,86 +1,103 @@
-import {AbstractSheep} from "../sheep/abstract-sheep-model";
-import {MaleSheep} from "../sheep/male-sheep-model";
-import {FemaleSheep} from "../sheep/female-sheep-model";
-import {LambSheep} from "../sheep/lamb-sheep-model";
+import { AbstractSheep } from '../sheep/abstract-sheep-model';
+import { MaleSheep } from '../sheep/male-sheep-model';
+import { FemaleSheep } from '../sheep/female-sheep-model';
+import { LambSheep } from '../sheep/lamb-sheep-model';
 
 export class Field {
-    private readonly fieldName: string;
-    private sheepInside: AbstractSheep[] = [];
-    private maleSheepInside: MaleSheep[] = [];
-    private femaleSheepInside: FemaleSheep[] = [];
-    private lambSheepInside: LambSheep[] = [];
+  private readonly fieldName: string;
+  private sheepInside: AbstractSheep[] = [];
+  private maleSheepInside: MaleSheep[] = [];
+  private femaleSheepInside: FemaleSheep[] = [];
+  private lambSheepInside: LambSheep[] = [];
 
-    constructor(fieldName: string) {
-        this.fieldName = fieldName;
+  constructor(fieldName: string) {
+    this.fieldName = fieldName;
+  }
+
+  public addSheep(sheep: AbstractSheep): void {
+    this.sheepInside.push(sheep);
+
+    // Indexing sheep too, because we are going to query them often.
+    if (sheep instanceof MaleSheep) {
+      this.maleSheepInside.push(sheep);
     }
-
-    public addSheep(sheep: AbstractSheep): void {
-        this.sheepInside.push(sheep);
-
-        // Indexing sheep too, because we are going to query them often.
-        if (sheep instanceof MaleSheep) {
-            this.maleSheepInside.push(sheep);
-        }
-        if (sheep instanceof FemaleSheep) {
-            this.femaleSheepInside.push(sheep);
-        }
-        if (sheep instanceof LambSheep) {
-            this.lambSheepInside.push(sheep);
-        }
+    if (sheep instanceof FemaleSheep) {
+      this.femaleSheepInside.push(sheep);
     }
-
-    public getFieldName(): string {
-        return this.fieldName;
+    if (sheep instanceof LambSheep) {
+      this.lambSheepInside.push(sheep);
     }
+  }
 
-    public getAllSheep(): AbstractSheep[] {
-        return this.sheepInside;
-    }
+  public getFieldName(): string {
+    return this.fieldName;
+  }
 
-    public getMaleSheep(): MaleSheep[] {
-        return this.maleSheepInside;
-    }
+  public getAllSheep(): AbstractSheep[] {
+    return this.sheepInside;
+  }
 
-    public getFemaleSheep(): FemaleSheep[] {
-        return this.femaleSheepInside;
-    }
+  public getMaleSheep(): MaleSheep[] {
+    return this.maleSheepInside;
+  }
 
-    public getLambSheep(): LambSheep[] {
-        return this.lambSheepInside;
-    }
+  public getFemaleSheep(): FemaleSheep[] {
+    return this.femaleSheepInside;
+  }
 
-    public getMaleSheepByIndex(index: number): MaleSheep | null {
-        if (index > this.maleSheepInside.length - 1) {
-            return null;
-        }
-        return this.maleSheepInside[index];
-    }
+  public getLambSheep(): LambSheep[] {
+    return this.lambSheepInside;
+  }
 
-    public getFemaleSheepByIndex(index: number): FemaleSheep | null {
-        if (index > this.femaleSheepInside.length - 1) {
-            return null;
-        }
-        return this.femaleSheepInside[index];
+  public getMaleSheepByIndex(index: number): MaleSheep | null {
+    if (index > this.maleSheepInside.length - 1) {
+      return null;
     }
+    return this.maleSheepInside[index];
+  }
 
-    public getLambSheepByIndex(index: number): LambSheep | null {
-        if (index > this.lambSheepInside.length - 1) {
-            return null;
-        }
-        return this.lambSheepInside[index];
+  public getFemaleSheepByIndex(index: number): FemaleSheep | null {
+    if (index > this.femaleSheepInside.length - 1) {
+      return null;
     }
+    return this.femaleSheepInside[index];
+  }
 
-    public getRandomUnbrandedSheep(): AbstractSheep {
-        return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
+  public getLambSheepByIndex(index: number): LambSheep | null {
+    if (index > this.lambSheepInside.length - 1) {
+      return null;
     }
+    return this.lambSheepInside[index];
+  }
 
-    private getAllUnbrandedSheep(): AbstractSheep[] {
-        const unbrandedSheepArray: AbstractSheep[] = [];
-        this.sheepInside.forEach((sheep) => {
-            if (!sheep.isBranded()){
-                unbrandedSheepArray.push(sheep);
-            }
-        })
-        return unbrandedSheepArray;
+  public getRandomUnbrandedSheep(): AbstractSheep {
+    return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
+  }
+
+  public removeOneLamb(): void {
+    this.getLambSheep().pop();
+
+    let indexToDelete = -1;
+    this.getAllSheep().forEach((sheep, index) => {
+      if (sheep instanceof LambSheep) {
+        indexToDelete = index;
+      }
+    });
+
+    if (indexToDelete >= 0) {
+      this.getAllSheep().splice(indexToDelete, 1);
+    } else {
+      throw new Error('Lamb sheep has escaped from growing up, I guess it will be happy forever...');
     }
+  }
+
+  private getAllUnbrandedSheep(): AbstractSheep[] {
+    const unbrandedSheepArray: AbstractSheep[] = [];
+    this.sheepInside.forEach((sheep) => {
+      if (!sheep.getIsBranded()) {
+        unbrandedSheepArray.push(sheep);
+      }
+    })
+    return unbrandedSheepArray;
+  }
 }
