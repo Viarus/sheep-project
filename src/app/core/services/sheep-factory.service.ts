@@ -65,7 +65,9 @@ export class SheepFactoryService {
       case this.gender_male:
         return new MaleSheep(name, field, isBranded);
       case this.gender_lamb:
-        return new LambSheep(name, field, isBranded);
+        const newLamb: LambSheep = new LambSheep(name, field, isBranded);
+        this.lambGrowingService.startGrowingProcess(newLamb);
+        return newLamb;
       default:
         throw new Error(this.publicConstants.WRONG_SHEEP_GENDER_EXCEPTION);
     }
