@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~ngx-toastr/toastr.css';
+
+.make-flex {
+  display: flex;
+}
+
+.margin-top-normal {
+  margin-top: 30px;
+}
+
+.margin-top-small {
+  margin-top: 15px;
+}
+
+.margin-small {
+  margin: 15px;
+}
+
+.padding-top-small {
+  padding-top: 15px;
+}
+
+.padding-bottom-small {
+  padding-bottom: 15px;
+}

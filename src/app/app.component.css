@@ -1,29 +1,5 @@
 /*GLOBAL CSS*/
 
-.make-flex {
-  display: flex;
-}
-
-.margin-top-normal {
-  margin-top: 30px;
-}
-
-.margin-top-small {
-  margin-top: 15px;
-}
-
-.margin-small {
-  margin: 15px;
-}
-
-.padding-top-small {
-  padding-top: 15px;
-}
-
-.padding-bottom-small {
-  padding-bottom: 15px;
-}
-
 /*LOCAL CSS*/
 
 .flexbox-wrapper {

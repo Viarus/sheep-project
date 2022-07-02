@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { FieldsContainerComponent } from './fields-container/fields-container.component';
 import { FieldComponent } from './fields-container/field/field.component';
 import { InputInterfaceComponent } from './input-interface/input-interface.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -16,9 +18,12 @@ import { InputInterfaceComponent } from './input-interface/input-interface.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
