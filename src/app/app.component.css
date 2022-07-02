@@ -1,5 +1,9 @@
 /*GLOBAL CSS*/
 
+.make-flex {
+  display: flex;
+}
+
 .margin-top-normal {
   margin-top: 30px;
 }

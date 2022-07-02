@@ -10,14 +10,21 @@
 
 .field-child {
   display: flex;
+  /* Below width uses calc to use the whole space. 100% minus 15px of side margin from both sides */
   width: calc(100% - 30px);
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 .field-child:first-of-type {
   position: relative;
   padding-bottom: 50px;
   border-bottom: grey 1px solid;
+}
+
+.field-child:last-of-type {
+  justify-content: start;
+  gap: 5px;
 }
 
 .field-title {
@@ -30,32 +37,12 @@
   right: 15px;
 }
 
-.field-mating-row {
-  display: flex;
-}
-
-.female-sheep {
-  display: flex;
-}
-
-.male-sheep {
-  display: flex;
-}
-
-.heart-item {
-  display: flex;
-}
-
-.field-small-sheep {
-
-}
-
-.sheep-icon-size{
+.sheep-icon-size {
   width: 40px;
   height: 40px;
 }
 
-.sheep-icon-lamb-size{
+.sheep-icon-lamb-size {
   width: 25px;
   height: 25px;
 }
@@ -70,6 +57,7 @@
   transform: rotate(45deg);
   transform-origin: 20px 20px;
 }
+
 .lds-heart div {
   top: 16px;
   left: 16px;
@@ -79,6 +67,7 @@
   background: palevioletred;
   animation: lds-heart 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 }
+
 .lds-heart div:after,
 .lds-heart div:before {
   content: " ";
@@ -88,14 +77,17 @@
   height: 16px;
   background: palevioletred;
 }
+
 .lds-heart div:before {
   left: -12px;
   border-radius: 50% 0 0 50%;
 }
+
 .lds-heart div:after {
   top: -12px;
   border-radius: 50% 50% 0 0;
 }
+
 @keyframes lds-heart {
   0% {
     transform: scale(0.95);
