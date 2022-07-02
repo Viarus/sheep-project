@@ -30,7 +30,7 @@
 .content-container {
   flex-wrap: wrap;
   display: flex;
-  width: 800px;
+  width: 750px;
 }
 
 .flex-child {
