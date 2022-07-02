@@ -3,25 +3,19 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
+  align-items: start;
   width: 100%;
-  min-height: 200px;
 }
 
 .flex-parent {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
   gap: 10px;
 }
 
 .flex-child {
   display: flex;
-  align-items: center;
   justify-content: center;
-  width: 200px;
-}
-
-.item-size {
   width: 200px;
 }
