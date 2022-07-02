@@ -4,14 +4,14 @@ import {FemaleSheep} from "../sheep/female-sheep-model";
 import {LambSheep} from "../sheep/lamb-sheep-model";
 
 export class Field {
-    private readonly _fieldName: string;
+    private readonly fieldName: string;
     private sheepInside: AbstractSheep[] = [];
     private maleSheepInside: MaleSheep[] = [];
     private femaleSheepInside: FemaleSheep[] = [];
     private lambSheepInside: LambSheep[] = [];
 
     constructor(fieldName: string) {
-        this._fieldName = fieldName;
+        this.fieldName = fieldName;
     }
 
     public addSheep(sheep: AbstractSheep): void {
@@ -30,7 +30,7 @@ export class Field {
     }
 
     public getFieldName(): string {
-        return this._fieldName;
+        return this.fieldName;
     }
 
     public getAllSheep(): AbstractSheep[] {
