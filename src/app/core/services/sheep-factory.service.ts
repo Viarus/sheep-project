@@ -6,13 +6,14 @@ import { FemaleSheep } from '../models/sheep/female-sheep-model';
 import { LambSheep } from '../models/sheep/lamb-sheep-model';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 import { PublicConstantsService } from '../constants/public-constants.service';
+import { FieldStorageService } from '../storages/field-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheepFactoryService {
 
-  constructor(private publicConstants: PublicConstantsService) {
+  constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
   }
 
   public readonly gender_female = 'FEMALE';
@@ -30,8 +31,9 @@ export class SheepFactoryService {
     this.gender_male
   ]
 
-  public createAndAssignSheep(name: string, gender: string, field: Field, isBranded = false): MaleSheep | FemaleSheep | LambSheep {
+  public createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): MaleSheep | FemaleSheep | LambSheep {
     let newSheep: AbstractSheep;
+    const field = this.sanitizedField(fieldOrFieldName);
     if (gender === this.gender_random) {
       newSheep = this.createSheepWithSpecifiedGender(name, this.getRandomSheepGender(), field, isBranded);
     } else {
@@ -80,5 +82,12 @@ export class SheepFactoryService {
   private onLambGrown(lamb: LambSheep) {
     this.createAndAssignSheep(lamb.getName(), this.getRandomAdultSheepGender(), lamb.getFieldTheSheepIsAssignedTo());
     lamb.getFieldTheSheepIsAssignedTo().removeOneLamb();
+  }
+
+  private sanitizedField(field: Field | string): Field{
+    if (field instanceof Field){
+      return field;
+    }
+    return this.fieldStorage.getFieldByName(field);
   }
 }

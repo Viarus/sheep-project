@@ -1,42 +1,50 @@
 <div class="flex-container margin-top-small border">
-    <div class="flex-parent">
-      <div class="flex-child">
-        Sheep Name
-      </div>
-      <div class="flex-child">
-        <input type="text" class="form-control center-form-content" placeholder="Magnus Sheeplsen">
-      </div>
-      <div class="flex-child">
-        <select class="form-select form-select-sm">
-          <option *ngFor="let sheepGender of getAllSheepGenders(), index as i">{{ sheepGender | titlecase}}</option>
-        </select>
-      </div>
-      <div class="flex-child">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="isBranded">
-          <label class="form-check-label" for="isBranded">
-            Branded
-          </label>
-        </div>
+  <div class="flex-parent">
+    <div class="flex-child">
+      Sheep Name
+    </div>
+    <div class="flex-child">
+      <input type="text"
+             class="form-control center-form-content"
+             placeholder="Magnus Sheeplsen"
+             [(ngModel)]="sheepNameInput">
+    </div>
+    <div class="flex-child">
+      <select class="form-select form-select-sm" [(ngModel)]="selectedGender">
+        <option *ngFor="let sheepGender of getAllSheepGenders()"
+                [ngValue]="sheepGender">{{ sheepGender | titlecase}}</option>
+      </select>
+    </div>
+    <div class="flex-child">
+      <div class="form-check">
+        <input class="form-check-input"
+               type="checkbox"
+               id="isBranded"
+               [checked]="isBrandedSelected"
+               (change)="isBrandedSelected = !isBrandedSelected">
+        <label class="form-check-label" for="isBranded">
+          Branded
+        </label>
       </div>
     </div>
-    <div class="flex-parent">
-      <div class="flex-child justify-self-center" *ngIf="isFieldNamesEmpty()">
-        <b>Please add field first</b>
-      </div>
-      <div class="flex-child" *ngIf="!isFieldNamesEmpty()">
-        Assign to field
-      </div>
-      <div class="flex-child" *ngIf="!isFieldNamesEmpty()">
-        <select class="form-select" size="2" multiple>
-          <option *ngFor="let fieldName of getFieldNames(), index as i">{{ fieldName }}</option>
-        </select>
-      </div>
-      <div class="flex-child">
-        <button type="submit" class="btn btn-primary" [disabled]="isFieldNamesEmpty()">Add Sheep
-        </button>
-      </div>
+  </div>
+  <div class="flex-parent">
+    <div class="flex-child justify-self-center" *ngIf="isFieldNamesEmpty()">
+      <b>Please add field first</b>
     </div>
+    <div class="flex-child" *ngIf="!isFieldNamesEmpty()">
+      Assign to field
+    </div>
+    <div class="flex-child" *ngIf="!isFieldNamesEmpty()">
+      <select class="form-select" size="2" multiple [(ngModel)]="selectedField">
+        <option *ngFor="let fieldName of getFieldNames()" [ngValue]="fieldName">{{ fieldName }}</option>
+      </select>
+    </div>
+    <div class="flex-child">
+      <button type="submit" class="btn btn-primary" [disabled]="!isSheepInputValid()" (click)="showSuccess()">Add Sheep
+      </button>
+    </div>
+  </div>
   <div class="flex-parent">
     <div class="flex-child">
       Field name
