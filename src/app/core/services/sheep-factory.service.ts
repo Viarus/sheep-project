@@ -6,25 +6,25 @@ import { FemaleSheep } from '../models/sheep/female-sheep-model';
 import { LambSheep } from '../models/sheep/lamb-sheep-model';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 import { PublicConstantsService } from '../constants/public-constants.service';
-import { LambSheepGrowingService } from './lamb-sheep-growing.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheepFactoryService {
 
-  constructor(private publicConstants: PublicConstantsService, private lambGrowingService: LambSheepGrowingService) {
+  constructor(private publicConstants: PublicConstantsService) {
   }
 
-  readonly gender_female = 'FEMALE';
-  readonly gender_male = 'MALE';
-  readonly gender_lamb = 'LAMB';
-  readonly gender_random = 'RANDOM';
+  public readonly gender_female = 'FEMALE';
+  public readonly gender_male = 'MALE';
+  public readonly gender_lamb = 'LAMB';
+  public readonly gender_random = 'RANDOM';
 
   private sheepCounter: number = 0;
   private sheepCounterSubject: Subject<number> = new Subject<number>();
+  private timeOfLambGrowth = 12000;
 
-  readonly arrayOfAllSheepGenders: string[] = [
+  public readonly arrayOfAllSheepGenders: string[] = [
     this.gender_female,
     this.gender_lamb,
     this.gender_male
@@ -66,10 +66,19 @@ export class SheepFactoryService {
         return new MaleSheep(name, field, isBranded);
       case this.gender_lamb:
         const newLamb: LambSheep = new LambSheep(name, field, isBranded);
-        this.lambGrowingService.startGrowingProcess(newLamb);
+        this.startGrowingProcess(newLamb);
         return newLamb;
       default:
         throw new Error(this.publicConstants.WRONG_SHEEP_GENDER_EXCEPTION);
     }
+  }
+
+  private startGrowingProcess(lamb: LambSheep) {
+    new Promise(resolve => setTimeout(resolve, this.timeOfLambGrowth)).then(() => this.onLambGrown(lamb));
+  }
+
+  private onLambGrown(lamb: LambSheep) {
+    this.createAndAssignSheep(lamb.getName(), this.getRandomAdultSheepGender(), lamb.getFieldTheSheepIsAssignedTo());
+    lamb.getFieldTheSheepIsAssignedTo().removeOneLamb();
   }
 }
