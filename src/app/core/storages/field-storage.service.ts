@@ -10,7 +10,7 @@ export class FieldStorageService {
   private fields: Field[] = [];
   private fieldNames: string[] = [];
   private fieldNamesSubject: Subject<string[]> = new Subject<string[]>();
-  private fieldsSubject: Subject<string[]> = new Subject<string[]>();
+  private fieldsSubject: Subject<Field[]> = new Subject<Field[]>();
 
   constructor(private publicConstants: PublicConstantsService) {
   }
@@ -27,7 +27,7 @@ export class FieldStorageService {
 
   addFieldToArray(newField: Field) {
     this.fields.push(newField);
-    this.fieldsSubject.next(this.fieldNames);
+    this.fieldsSubject.next(this.fields);
   }
 
   public getFieldByName(name: string): Field {
@@ -66,7 +66,7 @@ export class FieldStorageService {
     return this.fieldNamesSubject;
   }
 
-  public getFieldsSubject(): Subject<string[]> {
+  public getFieldsSubject(): Subject<Field[]> {
     return this.fieldsSubject;
   }
 }
