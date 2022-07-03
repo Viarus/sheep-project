@@ -36,12 +36,17 @@
       Assign to field
     </div>
     <div class="flex-child" *ngIf="!isFieldNamesEmpty()">
-      <select class="form-select" size="2" multiple [(ngModel)]="selectedField">
+      <select class="form-select" size="2" multiple [(ngModel)]="selectedField" (click)="sanitizeSelectInput()">
         <option *ngFor="let fieldName of getFieldNames()" [ngValue]="fieldName">{{ fieldName }}</option>
       </select>
     </div>
     <div class="flex-child">
-      <button type="submit" class="btn btn-primary" [disabled]="!isSheepInputValid()" (click)="showSuccess()">Add Sheep
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!isSheepInputValid()"
+        (click)="onCreatingSheep()">
+        Add Sheep
       </button>
     </div>
   </div>
@@ -50,10 +55,10 @@
       Field name
     </div>
     <div class="flex-child">
-      <input type="text" class="form-control center-form-content" placeholder="Chess Sheeplayers">
+      <input type="text" class="form-control center-form-content" placeholder="Chess Sheeplayers" [(ngModel)]="fieldNameInput">
     </div>
     <div class="flex-child">
-      <button type="button" class="btn btn-success">Add field</button>
+      <button type="button" class="btn btn-success" (click)="onAddField()" [disabled]="isFieldNameInputEmpty()">Add field</button>
     </div>
   </div>
 </div>

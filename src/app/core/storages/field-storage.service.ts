@@ -12,7 +12,8 @@ export class FieldStorageService {
   private fieldNamesSubject: Subject<string[]> = new Subject<string[]>();
   private fieldsSubject: Subject<string[]> = new Subject<string[]>();
 
-  constructor(private publicConstants: PublicConstantsService) { }
+  constructor(private publicConstants: PublicConstantsService) {
+  }
 
   addFieldNameToArray(newFieldName: string) {
     this.fieldNames.forEach((fieldName) => {

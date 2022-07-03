@@ -3,6 +3,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FieldStorageService } from '../core/storages/field-storage.service';
 import { SheepFactoryService } from '../core/services/sheep-factory.service';
 import { PublicConstantsService } from '../core/constants/public-constants.service';
+import { FieldFactoryService } from '../core/services/field-factory.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-input-interface',
@@ -10,38 +12,37 @@ import { PublicConstantsService } from '../core/constants/public-constants.servi
   styleUrls: ['./input-interface.component.css']
 })
 export class InputInterfaceComponent implements OnInit, OnDestroy {
-
-  private fieldNames: string[] = ['sss', 'eee', 'vvv'];
-
   public sheepNameInput: string = '';
   public selectedGender: string = this.getAllSheepGenders()[0];
   public isBrandedSelected: boolean = false;
-  public selectedField: string = '';
+  public fieldNameInput: string = '';
+
+  public selectedField: string[] = [];
+  public selectedFieldName: string = '';
+
+  private fieldNames: string[] = this.fieldStorage.getFieldNames();
+  private fieldStorageNamesSubscription: Subscription = new Subscription();
 
   constructor(private toastrService: ToastrService,
               private fieldStorage: FieldStorageService,
               private sheepFactory: SheepFactoryService,
-              private publicConstants: PublicConstantsService) {
+              private publicConstants: PublicConstantsService,
+              private fieldFactory: FieldFactoryService) {
   }
 
   ngOnInit(): void {
-    this.fieldStorage.getFieldNamesSubject().subscribe((names) => {
+    this.fieldStorageNamesSubscription = this.fieldStorage.getFieldNamesSubject().subscribe((names) => {
       this.fieldNames = [...names];
     })
   }
 
-  ngOnDestroy() {
-    this.fieldStorage.getFieldsSubject().unsubscribe();
+  ngOnDestroy(): void {
+    this.fieldStorageNamesSubscription.unsubscribe();
   }
 
-  showSuccess() {
-
-    console.log(this.selectedField);
-  }
-
-  public onCreatingSheep() {
+  public onCreatingSheep(): void {
     if (this.isSheepInputValid()) {
-      const newSheep = this.sheepFactory.createAndAssignSheep(this.sheepNameInput, this.selectedGender, this.selectedField, this.isBrandedSelected);
+      const newSheep = this.sheepFactory.createAndAssignSheep(this.sheepNameInput, this.selectedGender, this.selectedFieldName, this.isBrandedSelected);
       if (newSheep) {
         this.toastrService.success(this.publicConstants.SHEEP_CREATED_MESSAGE);
       }
@@ -51,9 +52,19 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
   public isSheepInputValid(): boolean {
     return !(
       this.isFieldNamesEmpty() ||
-      !this.selectedField ||
+      !this.selectedFieldName ||
       !this.sheepNameInput
     );
+  }
+
+  public onAddField(): void {
+    if (!this.isFieldNameInputEmpty()) {
+      this.fieldFactory.createField(this.fieldNameInput);
+    }
+  }
+
+  public isFieldNameInputEmpty(): boolean {
+    return !this.fieldNameInput;
   }
 
   public getFieldNames(): string[] {
@@ -66,5 +77,11 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
 
   public getAllSheepGenders(): string[] {
     return [...this.sheepFactory.arrayOfAllSheepGenders];
+  }
+
+  public sanitizeSelectInput(): void {
+    if (this.selectedField.length > 0) {
+      this.selectedFieldName = this.selectedField[0];
+    }
   }
 }
