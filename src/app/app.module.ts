@@ -9,13 +9,15 @@ import { InputInterfaceComponent } from './input-interface/input-interface.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { RowOfSheepComponent } from './fields-container/field/row-of-sheep/row-of-sheep.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FieldsContainerComponent,
     FieldComponent,
-    InputInterfaceComponent
+    InputInterfaceComponent,
+    RowOfSheepComponent
   ],
     imports: [
         BrowserModule,

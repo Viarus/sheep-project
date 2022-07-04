@@ -12,7 +12,6 @@
   display: flex;
   /* Below width uses calc to use the whole space. 100% minus 15px of side margin from both sides */
   width: calc(100% - 30px);
-  justify-content: space-evenly;
   flex-wrap: wrap;
 }
 
@@ -20,6 +19,10 @@
   position: relative;
   padding-bottom: 50px;
   border-bottom: grey 1px solid;
+}
+
+.field-child:nth-child(2){
+  flex-direction: column;
 }
 
 .field-child:last-of-type {
@@ -37,74 +40,15 @@
   right: 15px;
 }
 
-.sheep-icon-size {
-  width: 40px;
-  height: 40px;
-}
-
 .sheep-icon-lamb-size {
   width: 25px;
   height: 25px;
 }
 
-/*heart*/
-
-.lds-heart {
-  display: inline-block;
-  position: relative;
-  width: 40px;
-  height: 40px;
-  transform: rotate(45deg);
-  transform-origin: 20px 20px;
+.special-row-of-sheep-margin {
+  margin-top: 15px;
 }
 
-.lds-heart div {
-  top: 16px;
-  left: 16px;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: palevioletred;
-  animation: lds-heart 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.lds-heart div:after,
-.lds-heart div:before {
-  content: " ";
-  position: absolute;
-  display: block;
-  width: 16px;
-  height: 16px;
-  background: palevioletred;
-}
-
-.lds-heart div:before {
-  left: -12px;
-  border-radius: 50% 0 0 50%;
-}
-
-.lds-heart div:after {
-  top: -12px;
-  border-radius: 50% 50% 0 0;
-}
-
-@keyframes lds-heart {
-  0% {
-    transform: scale(0.95);
-  }
-  5% {
-    transform: scale(1.1);
-  }
-  39% {
-    transform: scale(0.85);
-  }
-  45% {
-    transform: scale(1);
-  }
-  60% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(0.9);
-  }
+.special-row-of-sheep-margin:first-of-type {
+  margin-top: 0px;
 }
