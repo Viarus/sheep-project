@@ -2,13 +2,13 @@ import { Field } from '../field/field-model';
 
 export abstract class AbstractSheep {
   protected _name: string;
-  protected isBranded: boolean;
+  protected _isBranded: boolean;
   protected fieldTheSheepIsAssignedTo: Field;
 
   protected constructor(name: string, field: Field, isBranded: boolean = false) {
     this._name = name;
     this.fieldTheSheepIsAssignedTo = field;
-    this.isBranded = isBranded;
+    this._isBranded = isBranded;
   }
 
   public setName(name: string): void {
@@ -19,8 +19,8 @@ export abstract class AbstractSheep {
     return this._name;
   }
 
-  public getIsBranded(): boolean {
-    return this.isBranded;
+  public isBranded(): boolean {
+    return this._isBranded;
   }
 
   public getFieldTheSheepIsAssignedTo(): Field {
@@ -28,6 +28,6 @@ export abstract class AbstractSheep {
   }
 
   public setIsBranded(value: boolean): void {
-    this.isBranded = value;
+    this._isBranded = value;
   }
 }

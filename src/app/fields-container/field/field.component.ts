@@ -8,12 +8,11 @@ import { Field } from '../../core/models/field/field-model';
 })
 export class FieldComponent implements OnInit {
 
-  @Input() field: Field | null = null;
+  @Input() field!: Field;
 
-  constructor() { }
-
-  ngOnInit(): void {
-
+  constructor() {
   }
 
+  ngOnInit(): void {
+  }
 }

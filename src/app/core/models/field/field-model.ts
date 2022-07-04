@@ -87,14 +87,14 @@ export class Field {
     if (indexToDelete >= 0) {
       this.getAllSheep().splice(indexToDelete, 1);
     } else {
-      throw new Error('Lamb sheep has escaped from growing up, I guess it will be happy forever...');
+      throw new Error('Lamb has escaped from growing up, I guess it will be happy forever...');
     }
   }
 
   private getAllUnbrandedSheep(): AbstractSheep[] {
     const unbrandedSheepArray: AbstractSheep[] = [];
     this.sheepInside.forEach((sheep) => {
-      if (!sheep.getIsBranded()) {
+      if (!sheep.isBranded()) {
         unbrandedSheepArray.push(sheep);
       }
     })
