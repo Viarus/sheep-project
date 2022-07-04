@@ -16,7 +16,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.fieldStorage.getFieldsSubject().subscribe((fields) => {
+    this.fieldStorageSubscription = this.fieldStorage.getFieldsSubject().subscribe((fields) => {
       this.fields = [...fields];
     })
   }

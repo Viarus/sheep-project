@@ -1,24 +1,39 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Field } from '../../core/models/field/field-model';
+import { RowStorageService } from '../../core/storages/row-storage.service';
+import { SheepFactoryService } from '../../core/services/sheep-factory.service';
+import { Subscription } from 'rxjs';
+import { FieldStorageService } from '../../core/storages/field-storage.service';
 import { AbstractSheep } from '../../core/models/sheep/abstract-sheep-model';
+import { RowMatingService } from '../../core/services/row-mating.service';
 
 @Component({
   selector: 'app-field',
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.css']
-  // encapsulation: ViewEncapsulation.None
 })
 export class FieldComponent implements OnInit {
+  @Input() fieldName: string = '';
+  public arrayOfTheBiggerAmountOfSheep: AbstractSheep[] = [];
 
-  @Input() field!: Field;
+  private field!: Field;
 
-  constructor() {
+  private sheepFactorySubscription: Subscription = new Subscription();
+  private rowMatingSubscription: Subscription = new Subscription();
+
+  constructor(private rowStorage: RowStorageService, private sheepFactory: SheepFactoryService, private rowMatingService: RowMatingService, private fieldStorage: FieldStorageService) {
   }
 
   ngOnInit(): void {
-  }
-
-  public getArrayOfTheBiggerAmountOfSheep(): AbstractSheep[] {
-    return this.field.getFemaleSheep() > this.field.getMaleSheep() ? this.field.getFemaleSheep() : this.field.getMaleSheep();
+    this.field = this.fieldStorage.getFieldByName(this.fieldName);
+    this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
+    this.sheepFactorySubscription = this.sheepFactory.getNewSheepEventSubject().subscribe((rowIndex) => {
+      this.field = this.fieldStorage.getFieldByName(this.fieldName);
+      this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
+    });
+    this.rowMatingSubscription = this.rowMatingService.getOnRowDataChangeEventSubject().subscribe((rowIndex) => {
+      this.field = this.fieldStorage.getFieldByName(this.fieldName);
+      this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
+    });
   }
 }

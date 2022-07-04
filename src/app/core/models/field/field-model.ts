@@ -2,8 +2,11 @@ import { AbstractSheep } from '../sheep/abstract-sheep-model';
 import { MaleSheep } from '../sheep/male-sheep-model';
 import { FemaleSheep } from '../sheep/female-sheep-model';
 import { LambSheep } from '../sheep/lamb-sheep-model';
+import { RowOfSheep } from '../row-of-sheep/row-of-sheep-model';
 
 export class Field {
+  private rows: RowOfSheep[] = []
+
   private readonly fieldName: string;
   private sheepInside: AbstractSheep[] = [];
   private maleSheepInside: MaleSheep[] = [];
@@ -29,8 +32,42 @@ export class Field {
     }
   }
 
+  public assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number {
+    if (sheep instanceof MaleSheep) {
+      const indexOfNewRow: number = this.getMaleSheep().length;
+      if (numberOfRowsBeforeNewSheepAdded >= this.getMaleSheep().length) {
+        this.rows[this.getMaleSheep().length - 1].setMaleSheep(sheep);
+      } else {
+        this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, undefined, sheep))
+      }
+      return indexOfNewRow;
+    }
+    if (sheep instanceof FemaleSheep) {
+      const indexOfNewRow: number = this.getFemaleSheep().length;
+      if (numberOfRowsBeforeNewSheepAdded >= this.getFemaleSheep().length) {
+        this.rows[this.getFemaleSheep().length - 1].setFemaleSheep(sheep);
+      } else {
+        this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, sheep, undefined))
+      }
+      return indexOfNewRow;
+    }
+    throw new Error('Cannot assign this gender of sheep.');
+  }
+
+  public getArrayOfTheBiggerAmountOfSheep(): AbstractSheep[] {
+    return this.getFemaleSheep().length > this.getMaleSheep().length ? this.getFemaleSheep() : this.getMaleSheep();
+  }
+
+  public getNumberOfRows(): number {
+    return this.getArrayOfTheBiggerAmountOfSheep().length;
+  }
+
   public getFieldName(): string {
     return this.fieldName;
+  }
+
+  public getRows(): RowOfSheep[] {
+    return this.rows;
   }
 
   public getAllSheep(): AbstractSheep[] {

@@ -13,17 +13,16 @@ import { FieldStorageService } from '../storages/field-storage.service';
 })
 export class SheepFactoryService {
 
-  constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
-  }
-
   public readonly gender_female = 'FEMALE';
   public readonly gender_male = 'MALE';
   public readonly gender_lamb = 'LAMB';
   public readonly gender_random = 'RANDOM';
 
-  private sheepCounter: number = 0;
-  private sheepCounterSubject: Subject<number> = new Subject<number>();
+  private newSheepEventSubject: Subject<number> = new Subject<number>();
   private timeOfLambGrowth = 12000;
+
+  constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
+  }
 
   public readonly arrayOfAllSheepGenders: string[] = [
     this.gender_female,
@@ -31,17 +30,18 @@ export class SheepFactoryService {
     this.gender_male
   ]
 
-  public createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): MaleSheep | FemaleSheep | LambSheep {
+  public createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): AbstractSheep {
     let newSheep: AbstractSheep;
     const field = this.sanitizedField(fieldOrFieldName);
+    const cachedNumberOfRows = field.getNumberOfRows();
     if (gender === this.gender_random) {
       newSheep = this.createSheepWithSpecifiedGender(name, this.getRandomSheepGender(), field, isBranded);
     } else {
       newSheep = this.createSheepWithSpecifiedGender(name, gender, field, isBranded);
     }
     field.addSheep(newSheep);
-    this.sheepCounter++;
-    this.sheepCounterSubject.next(this.sheepCounter);
+    const rowIndex = field.assignSheepToRow(newSheep, cachedNumberOfRows);
+    this.newSheepEventSubject.next(rowIndex);
     return newSheep;
   }
 
@@ -56,8 +56,8 @@ export class SheepFactoryService {
     return this.gender_male;
   }
 
-  public getSheepCounterSubject(): Subject<number> {
-    return this.sheepCounterSubject;
+  public getNewSheepEventSubject(): Subject<number> {
+    return this.newSheepEventSubject;
   }
 
   private createSheepWithSpecifiedGender(name: string, gender: string, field: Field, isBranded = false): MaleSheep | FemaleSheep | LambSheep {
@@ -84,8 +84,8 @@ export class SheepFactoryService {
     lamb.getFieldTheSheepIsAssignedTo().removeOneLamb();
   }
 
-  private sanitizedField(field: Field | string): Field{
-    if (field instanceof Field){
+  private sanitizedField(field: Field | string): Field {
+    if (field instanceof Field) {
       return field;
     }
     return this.fieldStorage.getFieldByName(field);
