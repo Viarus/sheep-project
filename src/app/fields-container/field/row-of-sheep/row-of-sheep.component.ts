@@ -13,8 +13,9 @@ import { PublicConstantsService } from '../../../core/constants/public-constants
 export class RowOfSheepComponent implements OnInit, OnChanges {
   @Input() femaleSheep: FemaleSheep | null = null;
   @Input() maleSheep: MaleSheep | null = null;
+  @Input() rowIndex!: number;
   private didMatingProcessOccurRecently = false;
-  private _isMatingHappening = false;
+  private isMatingNow = false;
   private readonly TIME_OF_MATING = 5000;
   private readonly TIME_OF_BREAK_BETWEEN_MATING = 8000;
 
@@ -38,7 +39,7 @@ export class RowOfSheepComponent implements OnInit, OnChanges {
     if (this.femaleSheep && this.maleSheep) {
       if (!(this.sheepBrandingService.isAnySheepBranded(this.femaleSheep, this.maleSheep) ||
         this.didMatingProcessOccurRecently ||
-        this._isMatingHappening)) {
+        this.isMatingNow)) {
         return true;
       }
     }
@@ -47,10 +48,10 @@ export class RowOfSheepComponent implements OnInit, OnChanges {
 
   public startMatingProcess(femaleSheep: FemaleSheep, maleSheep: MaleSheep): void {
     if (this.isPossibleToMate()) {
-      this._isMatingHappening = true;
+      this.isMatingNow = true;
 
       new Promise(res => setTimeout(res, this.TIME_OF_MATING)).then(() => {
-        this._isMatingHappening = false;
+        this.isMatingNow = false;
         this.didMatingProcessOccurRecently = true;
         this.makeDidMatingOccurTemporarilyTrue();
 

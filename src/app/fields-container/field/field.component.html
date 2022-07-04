@@ -7,7 +7,8 @@
     <app-row-of-sheep class="make-flex special-row-of-sheep-margin"
       *ngFor="let sheep of getArrayOfTheBiggerAmountOfSheep(), index as i"
       [femaleSheep]="field.getFemaleSheep()[i]"
-      [maleSheep]="field.getMaleSheep()[i]"></app-row-of-sheep>
+      [maleSheep]="field.getMaleSheep()[i]"
+      [rowIndex]="i"></app-row-of-sheep>
   </div>
   <div class="field-child margin-small">
     <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
