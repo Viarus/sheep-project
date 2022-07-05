@@ -1,7 +1,7 @@
 <div class="flex-container">
   <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForFemaleSheep()}" (click)="onFemaleSheepClick()">
-    <img *ngIf="!showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/female-sheep-icon.png" alt="There should be a sheep..."/>
-    <img *ngIf="showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/branded-sheep-icon.png" alt="There should be a sheep..."/>
+    <img *ngIf="!showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-female.png" alt="There should be a sheep..."/>
+    <img *ngIf="showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-female-branded.png" alt="There should be a sheep..."/>
   </div>
   <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForHeartIcon()}">
     <div class="lds-heart">
@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForMaleSheep()}" (click)="onMaleSheepClick()">
-    <img *ngIf="!showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/male-sheep-icon.png" alt="There should be a sheep..."/>
-    <img *ngIf="showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/branded-sheep-icon.png" alt="There should be a sheep..."/>
+    <img *ngIf="!showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-male.png" alt="There should be a sheep..."/>
+    <img *ngIf="showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-male-branded.png" alt="There should be a sheep..."/>
   </div>
 </div>
