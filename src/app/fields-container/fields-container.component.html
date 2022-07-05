@@ -1,4 +1,4 @@
-<div class="fields-flex-container margin-top-small padding-bottom-small border">
+<div *ngIf="fields.length > 0" class="fields-flex-container margin-top-small padding-bottom-small border">
   <div class="make-flex margin-top-small" *ngFor="let field of fields">
     <app-field [fieldName]="field.getFieldName()"></app-field>
   </div>
