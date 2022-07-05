@@ -70,6 +70,20 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
     return this.isMatingNow ? 'visible' : 'hidden';
   }
 
+  public showMaleSheepAsBranded(): boolean {
+    if (!!this.maleSheep) {
+      return this.maleSheep.isBranded();
+    }
+    return false;
+  }
+
+  public showFemaleSheepAsBranded(): boolean {
+    if (!!this.femaleSheep) {
+      return this.femaleSheep.isBranded();
+    }
+    return false;
+  }
+
   private refreshData(): void {
     const row = this.fieldStorage.getFieldByName(this.fieldName).getRows()[this.rowIndex];
     this.isMatingNow = row.getIsMatingNow();
