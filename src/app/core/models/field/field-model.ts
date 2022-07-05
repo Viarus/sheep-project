@@ -116,7 +116,7 @@ export class Field {
 
   private getAllUnbrandedSheep(): AbstractSheep[] {
     return this.sheepInside.filter((sheep) => {
-      return !sheep.isBranded();
+      return !sheep.isBranded() && !(sheep instanceof LambSheep);
     })
   }
 }
