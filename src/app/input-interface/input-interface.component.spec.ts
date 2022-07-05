@@ -8,9 +8,9 @@ describe('InputInterfaceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InputInterfaceComponent ]
+      declarations: [InputInterfaceComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(InputInterfaceComponent);
     component = fixture.componentInstance;

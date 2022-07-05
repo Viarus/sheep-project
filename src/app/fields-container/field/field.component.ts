@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Field } from '../../core/models/field/field-model';
 import { RowStorageService } from '../../core/storages/row-storage.service';
 import { SheepFactoryService } from '../../core/services/sheep-factory.service';
@@ -12,7 +12,7 @@ import { RowMatingService } from '../../core/services/row-mating.service';
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.css']
 })
-export class FieldComponent implements OnInit {
+export class FieldComponent implements OnInit, OnDestroy {
   @Input() fieldName: string = '';
 
   public arrayOfTheBiggerAmountOfSheep: AbstractSheep[] = [];
@@ -40,5 +40,10 @@ export class FieldComponent implements OnInit {
       this.field = this.fieldStorage.getFieldByName(this.fieldName);
       this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.rowMatingSubscription.unsubscribe();
+    this.sheepFactorySubscription.unsubscribe();
   }
 }

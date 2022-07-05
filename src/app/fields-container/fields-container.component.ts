@@ -21,7 +21,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.fieldStorageSubscription.unsubscribe();
   }
 }

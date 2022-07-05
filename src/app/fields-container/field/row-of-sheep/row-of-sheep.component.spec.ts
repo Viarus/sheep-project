@@ -8,9 +8,9 @@ describe('RowOfSheepComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RowOfSheepComponent ]
+      declarations: [RowOfSheepComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(RowOfSheepComponent);
     component = fixture.componentInstance;

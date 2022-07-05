@@ -9,11 +9,11 @@ export class PublicConstantsService {
   }
 
   //Field
-  readonly SELECTED_FIELD_WHEN_NO_FIELDS_CREATED = "No fields created";
+  readonly SELECTED_FIELD_WHEN_NO_FIELDS_CREATED = 'No fields created';
 
   //Sheep
   readonly LAMB_NEW_BORN_DEFAULT_NAME = 'Little Bob';
-  readonly SHEEP_CREATED_MESSAGE = "Sheep created successfully!"
+  readonly SHEEP_CREATED_MESSAGE = 'Sheep created successfully!'
 
   //Errors, Exceptions
   readonly WRONG_SHEEP_GENDER_EXCEPTION = 'Gender not found. Is your sheep an alien?';

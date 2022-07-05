@@ -21,7 +21,7 @@ export class RowStorageService {
     })
   }
 
-  public updateRowsInField(field: Field, rows: RowOfSheep[]){
+  public updateRowsInField(field: Field, rows: RowOfSheep[]) {
 
   }
 

@@ -12,7 +12,6 @@ import { FieldStorageService } from '../storages/field-storage.service';
   providedIn: 'root'
 })
 export class SheepFactoryService {
-
   public readonly gender_female = 'FEMALE';
   public readonly gender_male = 'MALE';
   public readonly gender_lamb = 'LAMB';

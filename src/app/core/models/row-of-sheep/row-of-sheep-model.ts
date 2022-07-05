@@ -4,8 +4,8 @@ import { MaleSheep } from '../sheep/male-sheep-model';
 export class RowOfSheep {
   private _femaleSheep: FemaleSheep | undefined;
   private _maleSheep: MaleSheep | undefined;
-  private _rowIndex: number;
-  private _fieldName: string;
+  private readonly _rowIndex: number;
+  private readonly _fieldName: string;
   private _isMatingNow: boolean;
   private _didMatingProcessOccurRecently = false;
 

@@ -11,10 +11,6 @@ export abstract class AbstractSheep {
     this._isBranded = isBranded;
   }
 
-  public setName(name: string): void {
-    this._name = name;
-  }
-
   public getName(): string {
     return this._name;
   }

@@ -86,27 +86,6 @@ export class Field {
     return this.lambSheepInside;
   }
 
-  public getMaleSheepByIndex(index: number): MaleSheep | null {
-    if (index > this.maleSheepInside.length - 1) {
-      return null;
-    }
-    return this.maleSheepInside[index];
-  }
-
-  public getFemaleSheepByIndex(index: number): FemaleSheep | null {
-    if (index > this.femaleSheepInside.length - 1) {
-      return null;
-    }
-    return this.femaleSheepInside[index];
-  }
-
-  public getLambSheepByIndex(index: number): LambSheep | null {
-    if (index > this.lambSheepInside.length - 1) {
-      return null;
-    }
-    return this.lambSheepInside[index];
-  }
-
   public getRandomUnbrandedSheep(): AbstractSheep {
     return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
   }

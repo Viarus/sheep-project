@@ -8,9 +8,9 @@ describe('FieldsContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FieldsContainerComponent ]
+      declarations: [FieldsContainerComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(FieldsContainerComponent);
     component = fixture.componentInstance;

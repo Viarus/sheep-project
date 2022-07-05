@@ -15,7 +15,7 @@ export class FieldStorageService {
   constructor(private publicConstants: PublicConstantsService) {
   }
 
-  public addFieldNameToArray(newFieldName: string) {
+  public addFieldNameToArray(newFieldName: string): void {
     this.fieldNames.forEach((fieldName) => {
       if (fieldName === newFieldName) {
         throw new Error(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
@@ -25,7 +25,7 @@ export class FieldStorageService {
     this.fieldNamesSubject.next(this.fieldNames);
   }
 
-  public addFieldToArray(newField: Field) {
+  public addFieldToArray(newField: Field): void {
     this.fields.push(newField);
     this.fieldsSubject.next(this.fields);
   }
@@ -45,13 +45,6 @@ export class FieldStorageService {
       return fetchedField;
     }
     throw new Error(this.publicConstants.FIELD_NOT_FOUND_EXCEPTION);
-  }
-
-  public getFieldByArrayIndex(index: number): Field | null {
-    if (this.fields.length < 1) {
-      return null;
-    }
-    return this.fields[index];
   }
 
   public getFields(): Field[] {

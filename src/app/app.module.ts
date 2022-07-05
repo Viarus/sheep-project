@@ -19,16 +19,16 @@ import { RowOfSheepComponent } from './fields-container/field/row-of-sheep/row-o
     InputInterfaceComponent,
     RowOfSheepComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot({
-            positionClass: 'toast-top-center',
-            preventDuplicates: true
-        }),
-        FormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center',
+      preventDuplicates: true
+    }),
+    FormsModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

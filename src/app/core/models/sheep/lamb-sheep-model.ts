@@ -1,8 +1,8 @@
-import {AbstractSheep} from "./abstract-sheep-model";
-import {Field} from "../field/field-model";
+import { AbstractSheep } from './abstract-sheep-model';
+import { Field } from '../field/field-model';
 
 export class LambSheep extends AbstractSheep {
-    constructor(name: string, field: Field, isBranded: boolean = false) {
-        super(name, field, isBranded);
-    }
+  constructor(name: string, field: Field, isBranded: boolean = false) {
+    super(name, field, isBranded);
+  }
 }

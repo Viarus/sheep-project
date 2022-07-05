@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FieldStorageService } from '../../../core/storages/field-storage.service';
 import { SheepFactoryService } from '../../../core/services/sheep-factory.service';
 import { Subscription } from 'rxjs';
@@ -10,13 +10,13 @@ import { RowMatingService } from '../../../core/services/row-mating.service';
   templateUrl: './row-of-sheep.component.html',
   styleUrls: ['./row-of-sheep.component.css']
 })
-export class RowOfSheepComponent implements OnInit {
+export class RowOfSheepComponent implements OnInit, OnDestroy {
   @Input() rowIndex!: number;
   @Input() fieldName!: string;
 
   public femaleSheepName: string | undefined = '';
   public maleSheepName: string | undefined = '';
-  public isMatingNow: boolean = false;
+  public isMatingNow = false;
 
   private row: RowOfSheep = new RowOfSheep('none', 3, undefined, undefined);
 
@@ -24,7 +24,6 @@ export class RowOfSheepComponent implements OnInit {
   private matingServiceSubscription: Subscription = new Subscription();
 
   constructor(private fieldStorage: FieldStorageService, private sheepFactory: SheepFactoryService, private matingService: RowMatingService) {
-
   }
 
   ngOnInit(): void {
@@ -38,6 +37,11 @@ export class RowOfSheepComponent implements OnInit {
       this.refreshData();
       this.matingService.startMatingProcessIfPossible(this.row);
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sheepFactorySubscription.unsubscribe();
+    this.matingServiceSubscription.unsubscribe();
   }
 
   public getVisibilityForFemaleSheep(): string {

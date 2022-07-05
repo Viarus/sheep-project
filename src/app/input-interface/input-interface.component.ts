@@ -12,13 +12,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./input-interface.component.css']
 })
 export class InputInterfaceComponent implements OnInit, OnDestroy {
-  public sheepNameInput: string = '';
+  public sheepNameInput = '';
   public selectedGender: string = this.getAllSheepGenders()[0];
-  public isBrandedSelected: boolean = false;
-  public fieldNameInput: string = '';
+  public isBrandedSelected = false;
+  public fieldNameInput = '';
 
   public selectedField: string[] = [];
-  public selectedFieldName: string = '';
+  public selectedFieldName = '';
 
   private fieldNames: string[] = this.fieldStorage.getFieldNames();
   private fieldStorageNamesSubscription: Subscription = new Subscription();

@@ -55,10 +55,15 @@
       Field name
     </div>
     <div class="flex-child">
-      <input type="text" class="form-control center-form-content" placeholder="Chess Sheeplayers" [(ngModel)]="fieldNameInput">
+      <input type="text"
+             class="form-control center-form-content"
+             placeholder="Chess Sheeplayers"
+             [(ngModel)]="fieldNameInput">
     </div>
     <div class="flex-child">
-      <button type="button" class="btn btn-success" (click)="onAddField()" [disabled]="isFieldNameInputEmpty()">Add field</button>
+      <button type="button" class="btn btn-success" (click)="onAddField()" [disabled]="isFieldNameInputEmpty()">Add
+        field
+      </button>
     </div>
   </div>
 </div>
