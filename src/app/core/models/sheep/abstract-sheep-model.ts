@@ -1,9 +1,5 @@
 import { Field } from '../field/field-model';
 
-interface AbstractSheepInterface {
-
-}
-
 export abstract class AbstractSheep {
   protected _name: string;
   protected _isBranded: boolean;
