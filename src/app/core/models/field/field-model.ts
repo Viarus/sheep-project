@@ -111,6 +111,9 @@ export class Field {
   }
 
   private getAllUnbrandedSheep(): AbstractSheep[] {
+    return this.sheepInside.filter((sheep) => {
+      return !sheep.isBranded();
+    })
     const unbrandedSheepArray: AbstractSheep[] = [];
     this.sheepInside.forEach((sheep) => {
       if (!sheep.isBranded()) {
