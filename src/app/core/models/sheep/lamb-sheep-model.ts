@@ -5,4 +5,8 @@ export class LambSheep extends AbstractSheep {
   constructor(name: string, field: Field) {
     super(name, field, false);
   }
+
+  public override assignToField(field: Field): void {
+    field.pushIntoLambSheepInsideArray(this);
+  }
 }

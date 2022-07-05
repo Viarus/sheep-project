@@ -19,46 +19,41 @@ export class Field {
 
   public addSheep(sheep: AbstractSheep): void {
     this.sheepInside.push(sheep);
-
-    // Indexing sheep too, because we are going to query them often.
-    if (sheep instanceof MaleSheep) {
-      this.maleSheepInside.push(sheep);
-    }
-    if (sheep instanceof FemaleSheep) {
-      this.femaleSheepInside.push(sheep);
-    }
-    if (sheep instanceof LambSheep) {
-      this.lambSheepInside.push(sheep);
-    }
+    sheep.assignToField(this);
   }
 
   public assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number | null {
-    if (sheep instanceof MaleSheep) {
-      // If we have just one sheep now (including the new one, so the only one) then we can assign it to row number 0.
-      const indexOfNewRow: number = this.getMaleSheep().length - 1;
-      if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
-        this.rows[indexOfNewRow].setMaleSheep(sheep);
-      } else {
-        this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, undefined, sheep))
-      }
-      sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
-      return indexOfNewRow;
+    if (sheep instanceof LambSheep) {
+      return null;
     }
-    if (sheep instanceof FemaleSheep) {
-      const indexOfNewRow: number = this.getFemaleSheep().length - 1;
-      if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
-        this.rows[indexOfNewRow].setFemaleSheep(sheep);
-      } else {
-        this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, sheep, undefined))
-      }
-      sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
-      return indexOfNewRow;
+    const indexOfNewRow: number = sheep.getIndexOfNewRowForSheep(this);
+    if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
+      sheep.assignToRow(this, indexOfNewRow);
+    } else {
+      sheep.createNewRowAndAssignSheepThere(this, indexOfNewRow);
     }
-    return null;
+    sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
+    return indexOfNewRow;
   }
 
   public getArrayOfTheBiggerAmountOfSheep(): AbstractSheep[] {
     return this.getFemaleSheep().length > this.getMaleSheep().length ? this.getFemaleSheep() : this.getMaleSheep();
+  }
+
+  public pushIntoFemaleSheepInsideArray(sheep: FemaleSheep): void {
+    this.femaleSheepInside.push(sheep);
+  }
+
+  public pushIntoMaleSheepInsideArray(sheep: MaleSheep): void {
+    this.maleSheepInside.push(sheep);
+  }
+
+  public pushIntoLambSheepInsideArray(sheep: LambSheep): void {
+    this.lambSheepInside.push(sheep);
+  }
+
+  public pushIntoRowsArray(row: RowOfSheep): void {
+    this.rows.push(row);
   }
 
   public getNumberOfRows(): number {
