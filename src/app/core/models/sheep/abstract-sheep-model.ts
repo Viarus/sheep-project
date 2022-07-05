@@ -4,6 +4,7 @@ export abstract class AbstractSheep {
   protected _name: string;
   protected _isBranded: boolean;
   protected fieldTheSheepIsAssignedTo: Field;
+  protected _rowIndexTheSheepIsAssignedTo: number | undefined;
 
   protected constructor(name: string, field: Field, isBranded: boolean = false) {
     this._name = name;
@@ -25,5 +26,13 @@ export abstract class AbstractSheep {
 
   public setIsBranded(value: boolean): void {
     this._isBranded = value;
+  }
+
+  public getRowIndexTheSheepIsAssignedTo(): number | undefined {
+    return this._rowIndexTheSheepIsAssignedTo;
+  }
+
+  public setRowIndexTheSheepIsAssignedTo(value: number): void {
+    this._rowIndexTheSheepIsAssignedTo = value;
   }
 }

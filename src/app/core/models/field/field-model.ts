@@ -40,6 +40,7 @@ export class Field {
       } else {
         this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, undefined, sheep))
       }
+      sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
       return indexOfNewRow;
     }
     if (sheep instanceof FemaleSheep) {
@@ -49,6 +50,7 @@ export class Field {
       } else {
         this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, sheep, undefined))
       }
+      sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
       return indexOfNewRow;
     }
     return null;
