@@ -1,5 +1,5 @@
 <div class="flex-container">
-  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForFemaleSheep()}">
+  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForFemaleSheep()}" (click)="onFemaleSheepClick()">
     <img class="sheep-icon-size" src="./assets/sheep-icons/female-sheep-icon.png" alt="There should be a sheep..."/>
   </div>
   <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForHeartIcon()}">
@@ -7,7 +7,7 @@
       <div></div>
     </div>
   </div>
-  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForMaleSheep()}">
+  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForMaleSheep()}" (click)="onMaleSheepClick()">
     <img class="sheep-icon-size" src="./assets/sheep-icons/male-sheep-icon.png" alt="There should be a sheep..."/>
   </div>
 </div>

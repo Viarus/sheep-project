@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Field } from '../../core/models/field/field-model';
-import { RowStorageService } from '../../core/storages/row-storage.service';
 import { SheepFactoryService } from '../../core/services/sheep-factory.service';
 import { Subscription } from 'rxjs';
 import { FieldStorageService } from '../../core/storages/field-storage.service';
@@ -21,8 +20,7 @@ export class FieldComponent implements OnInit, OnDestroy {
   private sheepFactorySubscription: Subscription = new Subscription();
   private rowMatingSubscription: Subscription = new Subscription();
 
-  constructor(private rowStorage: RowStorageService,
-              private sheepFactory: SheepFactoryService,
+  constructor(private sheepFactory: SheepFactoryService,
               private rowMatingService: RowMatingService,
               private fieldStorage: FieldStorageService) {
   }

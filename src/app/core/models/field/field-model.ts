@@ -34,9 +34,10 @@ export class Field {
 
   public assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number | null {
     if (sheep instanceof MaleSheep) {
-      const indexOfNewRow: number = this.getMaleSheep().length;
-      if (numberOfRowsBeforeNewSheepAdded >= this.getMaleSheep().length) {
-        this.rows[this.getMaleSheep().length - 1].setMaleSheep(sheep);
+      // If we have just one sheep now (including the new one, so the only one) then we can assign it to row number 0.
+      const indexOfNewRow: number = this.getMaleSheep().length - 1;
+      if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
+        this.rows[indexOfNewRow].setMaleSheep(sheep);
       } else {
         this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, undefined, sheep))
       }
@@ -44,9 +45,9 @@ export class Field {
       return indexOfNewRow;
     }
     if (sheep instanceof FemaleSheep) {
-      const indexOfNewRow: number = this.getFemaleSheep().length;
-      if (numberOfRowsBeforeNewSheepAdded >= this.getFemaleSheep().length) {
-        this.rows[this.getFemaleSheep().length - 1].setFemaleSheep(sheep);
+      const indexOfNewRow: number = this.getFemaleSheep().length - 1;
+      if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
+        this.rows[indexOfNewRow].setFemaleSheep(sheep);
       } else {
         this.rows.push(new RowOfSheep(this.fieldName, indexOfNewRow, sheep, undefined))
       }

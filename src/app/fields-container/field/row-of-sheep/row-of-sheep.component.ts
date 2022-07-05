@@ -4,6 +4,8 @@ import { SheepFactoryService } from '../../../core/services/sheep-factory.servic
 import { Subscription } from 'rxjs';
 import { RowOfSheep } from '../../../core/models/row-of-sheep/row-of-sheep-model';
 import { RowMatingService } from '../../../core/services/row-mating.service';
+import { MaleSheep } from '../../../core/models/sheep/male-sheep-model';
+import { FemaleSheep } from '../../../core/models/sheep/female-sheep-model';
 
 @Component({
   selector: 'app-row-of-sheep',
@@ -14,11 +16,11 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   @Input() rowIndex!: number;
   @Input() fieldName!: string;
 
-  public femaleSheepName: string | undefined = '';
-  public maleSheepName: string | undefined = '';
+  public femaleSheep: FemaleSheep | undefined;
+  public maleSheep: MaleSheep | undefined;
   public isMatingNow = false;
 
-  private row: RowOfSheep = new RowOfSheep('none', 3, undefined, undefined);
+  private row!: RowOfSheep;
 
   private sheepFactorySubscription: Subscription = new Subscription();
   private matingServiceSubscription: Subscription = new Subscription();
@@ -44,12 +46,24 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
     this.matingServiceSubscription.unsubscribe();
   }
 
+  public onFemaleSheepClick(): void {
+    if (!!this.femaleSheep) {
+      this.matingService.brandSheep(this.femaleSheep);
+    }
+  }
+
+  public onMaleSheepClick(): void {
+    if (!!this.maleSheep) {
+      this.matingService.brandSheep(this.maleSheep);
+    }
+  }
+
   public getVisibilityForFemaleSheep(): string {
-    return !!this.femaleSheepName ? 'visible' : 'hidden';
+    return !!this.femaleSheep ? 'visible' : 'hidden';
   }
 
   public getVisibilityForMaleSheep(): string {
-    return !!this.maleSheepName ? 'visible' : 'hidden';
+    return !!this.maleSheep ? 'visible' : 'hidden';
   }
 
   public getVisibilityForHeartIcon(): string {
@@ -59,7 +73,7 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   private refreshData(): void {
     const row = this.fieldStorage.getFieldByName(this.fieldName).getRows()[this.rowIndex];
     this.isMatingNow = row.getIsMatingNow();
-    this.femaleSheepName = row.getFemaleSheep()?.getName();
-    this.maleSheepName = row.getMaleSheep()?.getName();
+    this.femaleSheep = row.getFemaleSheep();
+    this.maleSheep = row.getMaleSheep();
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SheepBrandingService } from './sheep-branding.service';
 import { SheepFactoryService } from './sheep-factory.service';
 import { PublicConstantsService } from '../constants/public-constants.service';
 import { RowOfSheep } from '../models/row-of-sheep/row-of-sheep-model';
 import { Subject } from 'rxjs';
+import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +15,13 @@ export class RowMatingService {
 
   private onRowDataChangeEventSubject: Subject<number> = new Subject<number>();
 
-  constructor(private sheepBrandingService: SheepBrandingService,
-              private sheepFactory: SheepFactoryService,
+  constructor(private sheepFactory: SheepFactoryService,
               private publicConstants: PublicConstantsService) {
   }
 
   public isPossibleToMate(row: RowOfSheep): boolean {
     if (row.getFemaleSheep() && row.getMaleSheep()) {
-      if (!(this.sheepBrandingService.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!) ||
+      if (!(this.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!) ||
         row.getDidMatingProcessOccurRecently() ||
         row.getIsMatingNow())) {
         return true;
@@ -50,12 +49,18 @@ export class RowMatingService {
     }
   }
 
+  public brandSheep(sheep: AbstractSheep): void {
+    sheep.setIsBranded(true);
+    sheep.getFieldTheSheepIsAssignedTo().getRows()[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
+    this.onRowDataChangeEventSubject.next(sheep.getRowIndexTheSheepIsAssignedTo()!);
+  }
+
   public getOnRowDataChangeEventSubject(): Subject<number> {
     return this.onRowDataChangeEventSubject;
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
-    if (this.sheepBrandingService.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!)) {
+    if (this.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!)) {
       return false;
     }
     return Math.random() >= 0.5;
@@ -68,5 +73,16 @@ export class RowMatingService {
       row.setDidMatingProcessOccurRecently(false);
       this.onRowDataChangeEventSubject.next(row.getRowIndex());
     })
+  }
+
+  private isAnySheepBranded(...sheep: AbstractSheep[]): boolean {
+    let result = false;
+    for (let i = 0; i < sheep.length; i++) {
+      if (sheep[i].isBranded()) {
+        result = true;
+        break;
+      }
+    }
+    return result;
   }
 }
