@@ -6,8 +6,7 @@
   <div class="field-child margin-small">
     <app-row-of-sheep class="make-flex special-row-of-sheep-margin"
                       *ngFor="let sheep of field.getArrayOfTheBiggerAmountOfSheep(), index as i"
-                      [rowIndex]="i"
-                      [fieldName]="field.getFieldName()"></app-row-of-sheep>
+                      [row]="field.getRows()[i]"></app-row-of-sheep>
   </div>
   <div class="field-child margin-small">
     <img *ngFor="let lamb of field.getLambSheep()"

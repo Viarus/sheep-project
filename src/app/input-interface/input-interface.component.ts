@@ -85,4 +85,8 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
       this.selectedFieldName = this.selectedField[0];
     }
   }
+
+  public isLambSelected(): boolean {
+    return this.selectedGender === this.sheepFactory.gender_lamb;
+  }
 }

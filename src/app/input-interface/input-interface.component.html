@@ -20,7 +20,8 @@
         <input class="form-check-input"
                type="checkbox"
                id="isBranded"
-               [checked]="isBrandedSelected"
+               [disabled]="isLambSelected()"
+               [checked]="isBrandedSelected && !isLambSelected()"
                (change)="isBrandedSelected = !isBrandedSelected">
         <label class="form-check-label" for="isBranded">
           Branded

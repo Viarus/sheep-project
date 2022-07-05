@@ -13,14 +13,11 @@ import { FemaleSheep } from '../../../core/models/sheep/female-sheep-model';
   styleUrls: ['./row-of-sheep.component.css']
 })
 export class RowOfSheepComponent implements OnInit, OnDestroy {
-  @Input() rowIndex!: number;
-  @Input() fieldName!: string;
+  @Input() row!: RowOfSheep;
 
   public femaleSheep: FemaleSheep | undefined;
   public maleSheep: MaleSheep | undefined;
   public isMatingNow = false;
-
-  private row!: RowOfSheep;
 
   private sheepFactorySubscription: Subscription = new Subscription();
   private matingServiceSubscription: Subscription = new Subscription();
@@ -29,7 +26,6 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.row = this.fieldStorage.getFieldByName(this.fieldName).getRows()[this.rowIndex];
     this.refreshData();
     this.sheepFactorySubscription = this.sheepFactory.getNewSheepEventSubject().subscribe(() => {
       this.refreshData();
@@ -85,9 +81,8 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   }
 
   private refreshData(): void {
-    const row = this.fieldStorage.getFieldByName(this.fieldName).getRows()[this.rowIndex];
-    this.isMatingNow = row.getIsMatingNow();
-    this.femaleSheep = row.getFemaleSheep();
-    this.maleSheep = row.getMaleSheep();
+    this.isMatingNow = this.row.getIsMatingNow();
+    this.femaleSheep = this.row.getFemaleSheep();
+    this.maleSheep = this.row.getMaleSheep();
   }
 }
