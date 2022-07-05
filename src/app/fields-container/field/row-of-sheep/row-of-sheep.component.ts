@@ -19,6 +19,9 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   public maleSheep: MaleSheep | undefined;
   public isMatingNow = false;
 
+  private readonly VISIBILITY_VISIBLE = 'visible';
+  private readonly VISIBILITY_HIDDEN = 'hidden';
+
   private sheepFactorySubscription: Subscription = new Subscription();
   private matingServiceSubscription: Subscription = new Subscription();
 
@@ -55,15 +58,15 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   }
 
   public getVisibilityForFemaleSheep(): string {
-    return !!this.femaleSheep ? 'visible' : 'hidden';
+    return !!this.femaleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
   public getVisibilityForMaleSheep(): string {
-    return !!this.maleSheep ? 'visible' : 'hidden';
+    return !!this.maleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
   public getVisibilityForHeartIcon(): string {
-    return this.isMatingNow ? 'visible' : 'hidden';
+    return this.isMatingNow ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
   public showMaleSheepAsBranded(): boolean {
