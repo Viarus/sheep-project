@@ -1,5 +1,5 @@
 <div *ngIf="fields.length > 0" class="fields-flex-container margin-top-small padding-bottom-small border">
   <div class="make-flex margin-top-small" *ngFor="let field of fields">
-    <app-field [fieldName]="field.getFieldName()"></app-field>
+    <app-field [field]="field"></app-field>
   </div>
 </div>
