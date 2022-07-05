@@ -80,6 +80,7 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
   }
 
   public sanitizeSelectInput(): void {
+    //Needed because select element returns an array instead of string.
     if (this.selectedField.length > 0) {
       this.selectedFieldName = this.selectedField[0];
     }

@@ -10,13 +10,6 @@
       [fieldName]="fieldName"></app-row-of-sheep>
   </div>
   <div class="field-child margin-small">
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
-    <img class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
+    <img *ngFor="let lamb of field.getLambSheep()" class="sheep-icon-lamb-size" src="./assets/sheep-icons/lamb-sheep-icon.png" alt="There should be a sheep..."/>
   </div>
 </div>

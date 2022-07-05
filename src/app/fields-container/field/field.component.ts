@@ -14,24 +14,29 @@ import { RowMatingService } from '../../core/services/row-mating.service';
 })
 export class FieldComponent implements OnInit {
   @Input() fieldName: string = '';
-  public arrayOfTheBiggerAmountOfSheep: AbstractSheep[] = [];
 
-  private field!: Field;
+  public arrayOfTheBiggerAmountOfSheep: AbstractSheep[] = [];
+  public field!: Field;
 
   private sheepFactorySubscription: Subscription = new Subscription();
   private rowMatingSubscription: Subscription = new Subscription();
 
-  constructor(private rowStorage: RowStorageService, private sheepFactory: SheepFactoryService, private rowMatingService: RowMatingService, private fieldStorage: FieldStorageService) {
+  constructor(private rowStorage: RowStorageService,
+              private sheepFactory: SheepFactoryService,
+              private rowMatingService: RowMatingService,
+              private fieldStorage: FieldStorageService) {
   }
 
   ngOnInit(): void {
     this.field = this.fieldStorage.getFieldByName(this.fieldName);
     this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
-    this.sheepFactorySubscription = this.sheepFactory.getNewSheepEventSubject().subscribe((rowIndex) => {
+
+    this.sheepFactorySubscription = this.sheepFactory.getNewSheepEventSubject().subscribe(() => {
       this.field = this.fieldStorage.getFieldByName(this.fieldName);
       this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
     });
-    this.rowMatingSubscription = this.rowMatingService.getOnRowDataChangeEventSubject().subscribe((rowIndex) => {
+
+    this.rowMatingSubscription = this.rowMatingService.getOnRowDataChangeEventSubject().subscribe(() => {
       this.field = this.fieldStorage.getFieldByName(this.fieldName);
       this.arrayOfTheBiggerAmountOfSheep = this.field.getArrayOfTheBiggerAmountOfSheep();
     });

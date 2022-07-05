@@ -18,7 +18,7 @@ export class SheepFactoryService {
   public readonly gender_lamb = 'LAMB';
   public readonly gender_random = 'RANDOM';
 
-  private newSheepEventSubject: Subject<number> = new Subject<number>();
+  private newSheepEventSubject: Subject<void> = new Subject<void>();
   private timeOfLambGrowth = 12000;
 
   constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
@@ -40,10 +40,8 @@ export class SheepFactoryService {
       newSheep = this.createSheepWithSpecifiedGender(name, gender, field, isBranded);
     }
     field.addSheep(newSheep);
-    const rowIndex = field.assignSheepToRow(newSheep, cachedNumberOfRows);
-    if (rowIndex !== null){
-    this.newSheepEventSubject.next(rowIndex);
-    }
+    field.assignSheepToRow(newSheep, cachedNumberOfRows);
+    this.newSheepEventSubject.next();
     return newSheep;
   }
 
@@ -58,11 +56,11 @@ export class SheepFactoryService {
     return this.gender_male;
   }
 
-  public getNewSheepEventSubject(): Subject<number> {
+  public getNewSheepEventSubject(): Subject<void> {
     return this.newSheepEventSubject;
   }
 
-  private createSheepWithSpecifiedGender(name: string, gender: string, field: Field, isBranded = false): MaleSheep | FemaleSheep | LambSheep {
+  private createSheepWithSpecifiedGender(name: string, gender: string, field: Field, isBranded = false): AbstractSheep {
     switch (gender) {
       case this.gender_female:
         return new FemaleSheep(name, field, isBranded);
@@ -77,11 +75,11 @@ export class SheepFactoryService {
     }
   }
 
-  private startGrowingProcess(lamb: LambSheep) {
+  private startGrowingProcess(lamb: LambSheep): void {
     new Promise(resolve => setTimeout(resolve, this.timeOfLambGrowth)).then(() => this.onLambGrown(lamb));
   }
 
-  private onLambGrown(lamb: LambSheep) {
+  private onLambGrown(lamb: LambSheep): void {
     this.createAndAssignSheep(lamb.getName(), this.getRandomAdultSheepGender(), lamb.getFieldTheSheepIsAssignedTo());
     lamb.getFieldTheSheepIsAssignedTo().removeOneLamb();
   }

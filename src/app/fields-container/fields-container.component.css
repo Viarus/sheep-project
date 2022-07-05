@@ -6,7 +6,3 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
-
-.fields-flex-child {
-  display: flex;
-}
