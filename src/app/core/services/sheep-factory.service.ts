@@ -41,7 +41,9 @@ export class SheepFactoryService {
     }
     field.addSheep(newSheep);
     const rowIndex = field.assignSheepToRow(newSheep, cachedNumberOfRows);
+    if (rowIndex !== null){
     this.newSheepEventSubject.next(rowIndex);
+    }
     return newSheep;
   }
 

@@ -34,10 +34,10 @@ export class RowMatingService {
   public startMatingProcessIfPossible(row: RowOfSheep): void {
     if (this.isPossibleToMate(row)) {
       row.setIsMatingNow(true);
+      console.log('mating starts')
       this.onRowDataChangeEventSubject.next(row.getRowIndex());
       new Promise(res => setTimeout(res, this.TIME_OF_MATING)).then(() => {
         row.setIsMatingNow(false);
-        this.onRowDataChangeEventSubject.next(row.getRowIndex());
         this.makeDidMatingOccurTemporarilyTrue(row);
 
         if (this.wasMatingSuccessful(row)) {

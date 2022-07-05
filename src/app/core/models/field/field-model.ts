@@ -32,7 +32,7 @@ export class Field {
     }
   }
 
-  public assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number {
+  public assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number | null {
     if (sheep instanceof MaleSheep) {
       const indexOfNewRow: number = this.getMaleSheep().length;
       if (numberOfRowsBeforeNewSheepAdded >= this.getMaleSheep().length) {
@@ -51,7 +51,7 @@ export class Field {
       }
       return indexOfNewRow;
     }
-    throw new Error('Cannot assign this gender of sheep.');
+    return null;
   }
 
   public getArrayOfTheBiggerAmountOfSheep(): AbstractSheep[] {
