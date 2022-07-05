@@ -35,10 +35,6 @@ export class RowOfSheep {
     return this._rowIndex;
   }
 
-  public getFieldName(): string {
-    return this._fieldName;
-  }
-
   public getIsMatingNow(): boolean {
     return this._isMatingNow;
   }

@@ -10,10 +10,10 @@ export class ErrorHandlerService {
   }
 
   public handleError(error: any): void {
-    this.toastrService.error(ErrorHandlerService.getErrorMessage(error), 'Error');
+    this.toastrService.error(this.getErrorMessage(error), 'Error');
   }
 
-  private static getErrorMessage(error: unknown): string {
+  private getErrorMessage(error: unknown): string {
     if (error instanceof Error) return error.message
     return String(error)
   }
