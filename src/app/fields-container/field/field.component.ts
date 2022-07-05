@@ -44,4 +44,11 @@ export class FieldComponent implements OnInit, OnDestroy {
     this.rowMatingSubscription.unsubscribe();
     this.sheepFactorySubscription.unsubscribe();
   }
+
+  public onBrandRandom(): void {
+    const randomSheep = this.field.getRandomUnbrandedSheep();
+    if (!!randomSheep) {
+      this.rowMatingService.brandSheep(randomSheep);
+    }
+  }
 }

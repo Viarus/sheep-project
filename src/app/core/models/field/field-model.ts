@@ -89,8 +89,12 @@ export class Field {
     return this.lambSheepInside;
   }
 
-  public getRandomUnbrandedSheep(): AbstractSheep {
-    return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
+  public getRandomUnbrandedSheep(): AbstractSheep | null {
+    const allUnbrandedSheep = this.getAllUnbrandedSheep();
+    if (allUnbrandedSheep.length > 0) {
+      return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
+    }
+    return null;
   }
 
   public removeOneLamb(): void {
@@ -114,12 +118,5 @@ export class Field {
     return this.sheepInside.filter((sheep) => {
       return !sheep.isBranded();
     })
-    const unbrandedSheepArray: AbstractSheep[] = [];
-    this.sheepInside.forEach((sheep) => {
-      if (!sheep.isBranded()) {
-        unbrandedSheepArray.push(sheep);
-      }
-    })
-    return unbrandedSheepArray;
   }
 }
