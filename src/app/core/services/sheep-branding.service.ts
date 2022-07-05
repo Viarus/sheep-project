@@ -7,18 +7,18 @@ import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 })
 export class SheepBrandingService {
 
-  private sheepIsBrandedSubject: Subject<number> = new Subject<number>();
+  private sheepBrandingEventSubject: Subject<void> = new Subject<void>();
 
   constructor() {
   }
 
   public brandSheep(sheep: AbstractSheep): void {
     sheep.setIsBranded(true);
-    this.sheepIsBrandedSubject.next(0);
+    this.sheepBrandingEventSubject.next();
   }
 
-  public getSheepIsBrandedSubject(): Subject<number> {
-    return this.sheepIsBrandedSubject;
+  public getSheepIsBrandedSubject(): Subject<void> {
+    return this.sheepBrandingEventSubject;
   }
 
   public isAnySheepBranded(...sheep: AbstractSheep[]): boolean {
