@@ -1,6 +1,6 @@
 # SheepProject
 
-## Try out the app remotely:
+## Try out the app remotely
 https://sheep-project-808f5.web.app/
 
 ## To run locally
