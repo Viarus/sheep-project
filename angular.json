@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sheep-project:build:production"
+              "buildTarget": "sheep-project:build:production"
             },
             "development": {
-              "browserTarget": "sheep-project:build:development"
+              "buildTarget": "sheep-project:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sheep-project:build"
+            "buildTarget": "sheep-project:build"
           }
         },
         "test": {
