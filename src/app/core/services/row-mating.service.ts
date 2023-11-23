@@ -12,7 +12,6 @@ export class RowMatingService implements OnDestroy {
   private readonly TIME_OF_MATING = 5000;
   private readonly TIME_OF_BREAK_BETWEEN_MATING = 8000;
 
-  private _onRowDataChange$: Subject<number> = new Subject<number>();
   private matingStarted$: Subject<RowOfSheep> = new Subject();
   private matingStopped$: Subject<RowOfSheep> = new Subject();
   private destroyed$: Subject<void> = new Subject();
@@ -22,7 +21,6 @@ export class RowMatingService implements OnDestroy {
     this.matingStarted$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_MATING), tap(row => {
       row.setIsMatingNow(false);
       row.setDidMatingProcessOccurRecently(true);
-      this._onRowDataChange$.next(row.getRowIndex());
       this.matingStopped$.next(row);
 
       if (this.wasMatingSuccessful(row)) {
@@ -36,7 +34,7 @@ export class RowMatingService implements OnDestroy {
 
     this.matingStopped$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_BREAK_BETWEEN_MATING), tap(row => {
       row.setDidMatingProcessOccurRecently(false);
-      this._onRowDataChange$.next(row.getRowIndex());
+      this.startMatingProcessIfPossible(row);
     })).subscribe();
   }
 
@@ -47,7 +45,6 @@ export class RowMatingService implements OnDestroy {
   startMatingProcessIfPossible(row: RowOfSheep): void {
     if (this.isPossibleToMate(row)) {
       row.setIsMatingNow(true);
-      this._onRowDataChange$.next(row.getRowIndex());
       this.matingStarted$.next(row);
     }
   }
@@ -55,11 +52,6 @@ export class RowMatingService implements OnDestroy {
   brandSheep(sheep: AbstractSheep): void {
     sheep.setIsBranded(true);
     sheep.getFieldTheSheepIsAssignedTo().getRows()[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
-    this._onRowDataChange$.next(sheep.getRowIndexTheSheepIsAssignedTo()!);
-  }
-
-  get onRowDataChange$(): Subject<number> {
-    return this._onRowDataChange$;
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {

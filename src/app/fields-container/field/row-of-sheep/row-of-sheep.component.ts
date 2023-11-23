@@ -24,10 +24,6 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
     this.sheepFactory.getNewSheepEventSubject().pipe(
       takeUntil(this.destroy$),
       tap(() => this.matingService.startMatingProcessIfPossible(this.row))).subscribe();
-
-    this.matingService.onRowDataChange$.pipe(
-      takeUntil(this.destroy$),
-      tap(() => this.matingService.startMatingProcessIfPossible(this.row))).subscribe();
   }
 
   ngOnDestroy(): void {
