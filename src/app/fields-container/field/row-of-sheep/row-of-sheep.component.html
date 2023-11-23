@@ -1,15 +1,23 @@
 <div class="flex-container">
-  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForFemaleSheep()}" (click)="onFemaleSheepClick()">
-    <img *ngIf="!showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-female.png" alt="There should be a sheep..."/>
-    <img *ngIf="showFemaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-female-branded.png" alt="There should be a sheep..."/>
+  <div class="make-flex" [ngStyle]="{'visibility': visibilityForFemaleSheep}" (click)="onFemaleSheepClick()">
+    <ng-container *ngIf="isFemaleBranded; else femaleNotBranded">
+    <img  class="sheep-icon-size" src="./assets/sheep-icons/sheep-female-branded.png" alt="There should be a sheep..."/>
+    </ng-container>
+    <ng-template #femaleNotBranded>
+    <img class="sheep-icon-size" src="./assets/sheep-icons/sheep-female.png" alt="There should be a sheep..."/>
+    </ng-template>
   </div>
-  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForHeartIcon()}">
+  <div class="make-flex" [ngStyle]="{'visibility': visibilityForHeartIcon}">
     <div class="lds-heart">
       <div></div>
     </div>
   </div>
-  <div class="make-flex" [ngStyle]="{'visibility': getVisibilityForMaleSheep()}" (click)="onMaleSheepClick()">
-    <img *ngIf="!showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-male.png" alt="There should be a sheep..."/>
-    <img *ngIf="showMaleSheepAsBranded()" class="sheep-icon-size" src="./assets/sheep-icons/sheep-male-branded.png" alt="There should be a sheep..."/>
+  <div class="make-flex" [ngStyle]="{'visibility': visibilityForMaleSheep}" (click)="onMaleSheepClick()">
+    <ng-container *ngIf="isMaleBranded; else maleNotBranded">
+    <img class="sheep-icon-size" src="./assets/sheep-icons/sheep-male-branded.png" alt="There should be a sheep..."/>
+    </ng-container>
+    <ng-template #maleNotBranded>
+    <img class="sheep-icon-size" src="./assets/sheep-icons/sheep-male.png" alt="There should be a sheep..."/>
+    </ng-template>
   </div>
 </div>

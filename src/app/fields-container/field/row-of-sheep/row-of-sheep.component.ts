@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FieldStorageService } from '../../../core/storages/field-storage.service';
 import { SheepFactoryService } from '../../../core/services/sheep-factory.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { RowOfSheep } from '../../../core/models/row-of-sheep/row-of-sheep-model';
 import { RowMatingService } from '../../../core/services/row-mating.service';
-import { MaleSheep } from '../../../core/models/sheep/male-sheep-model';
-import { FemaleSheep } from '../../../core/models/sheep/female-sheep-model';
 
 @Component({
   selector: 'app-row-of-sheep',
@@ -15,78 +12,63 @@ import { FemaleSheep } from '../../../core/models/sheep/female-sheep-model';
 export class RowOfSheepComponent implements OnInit, OnDestroy {
   @Input({required: true}) row!: RowOfSheep;
 
-  femaleSheep: FemaleSheep | undefined;
-  maleSheep: MaleSheep | undefined;
-  isMatingNow = false;
-
   private readonly VISIBILITY_VISIBLE = 'visible';
   private readonly VISIBILITY_HIDDEN = 'hidden';
 
-  private sheepFactorySubscription: Subscription = new Subscription();
-  private matingServiceSubscription: Subscription = new Subscription();
+  private destroy$: Subject<void> = new Subject();
 
-  constructor(private fieldStorage: FieldStorageService, private sheepFactory: SheepFactoryService, private matingService: RowMatingService) {
+  constructor(private sheepFactory: SheepFactoryService, private matingService: RowMatingService) {
   }
 
   ngOnInit(): void {
-    this.refreshData();
-    this.sheepFactorySubscription = this.sheepFactory.getNewSheepEventSubject().subscribe(() => {
-      this.refreshData();
-      this.matingService.startMatingProcessIfPossible(this.row);
-    });
+    this.sheepFactory.getNewSheepEventSubject().pipe(
+      takeUntil(this.destroy$),
+      tap(() => this.matingService.startMatingProcessIfPossible(this.row))).subscribe();
 
-    this.matingServiceSubscription = this.matingService.onRowDataChange$.subscribe(() => {
-      this.refreshData();
-      this.matingService.startMatingProcessIfPossible(this.row);
-    });
+    this.matingService.onRowDataChange$.pipe(
+      takeUntil(this.destroy$),
+      tap(() => this.matingService.startMatingProcessIfPossible(this.row))).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.sheepFactorySubscription.unsubscribe();
-    this.matingServiceSubscription.unsubscribe();
+    this.destroy$.next();
   }
 
   onFemaleSheepClick(): void {
-    if (!!this.femaleSheep) {
-      this.matingService.brandSheep(this.femaleSheep);
+    if (this.row.femaleSheep) {
+      this.matingService.brandSheep(this.row.femaleSheep);
     }
   }
 
   onMaleSheepClick(): void {
-    if (!!this.maleSheep) {
-      this.matingService.brandSheep(this.maleSheep);
+    if (this.row.maleSheep) {
+      this.matingService.brandSheep(this.row.maleSheep);
     }
   }
 
-  getVisibilityForFemaleSheep(): string {
-    return !!this.femaleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
+  get visibilityForFemaleSheep(): string {
+    return !!this.row.femaleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  getVisibilityForMaleSheep(): string {
-    return !!this.maleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
+  get visibilityForMaleSheep(): string {
+    return !!this.row.maleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  getVisibilityForHeartIcon(): string {
-    return this.isMatingNow ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
+  get visibilityForHeartIcon(): string {
+    return this.row.isMatingNow ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  showMaleSheepAsBranded(): boolean {
-    if (!!this.maleSheep) {
-      return this.maleSheep.isBranded();
-    }
-    return false;
-  }
-
-  showFemaleSheepAsBranded(): boolean {
-    if (!!this.femaleSheep) {
-      return this.femaleSheep.isBranded();
+  get isMaleBranded(): boolean {
+    if (!!this.row.maleSheep) {
+      return this.row.maleSheep.isBranded();
     }
     return false;
   }
 
-  private refreshData(): void {
-    this.isMatingNow = this.row.isMatingNow;
-    this.femaleSheep = this.row.femaleSheep;
-    this.maleSheep = this.row.maleSheep;
+  get isFemaleBranded(): boolean {
+    if (!!this.row.femaleSheep) {
+      return this.row.femaleSheep.isBranded();
+    }
+    return false;
   }
 }
