@@ -13,11 +13,11 @@ import { FemaleSheep } from '../../../core/models/sheep/female-sheep-model';
   styleUrls: ['./row-of-sheep.component.css']
 })
 export class RowOfSheepComponent implements OnInit, OnDestroy {
-  @Input() row!: RowOfSheep;
+  @Input({required: true}) row!: RowOfSheep;
 
-  public femaleSheep: FemaleSheep | undefined;
-  public maleSheep: MaleSheep | undefined;
-  public isMatingNow = false;
+  femaleSheep: FemaleSheep | undefined;
+  maleSheep: MaleSheep | undefined;
+  isMatingNow = false;
 
   private readonly VISIBILITY_VISIBLE = 'visible';
   private readonly VISIBILITY_HIDDEN = 'hidden';
@@ -34,7 +34,8 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
       this.refreshData();
       this.matingService.startMatingProcessIfPossible(this.row);
     });
-    this.matingServiceSubscription = this.matingService.getOnRowDataChangeEventSubject().subscribe(() => {
+
+    this.matingServiceSubscription = this.matingService.onRowDataChange$.subscribe(() => {
       this.refreshData();
       this.matingService.startMatingProcessIfPossible(this.row);
     });
@@ -45,38 +46,38 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
     this.matingServiceSubscription.unsubscribe();
   }
 
-  public onFemaleSheepClick(): void {
+  onFemaleSheepClick(): void {
     if (!!this.femaleSheep) {
       this.matingService.brandSheep(this.femaleSheep);
     }
   }
 
-  public onMaleSheepClick(): void {
+  onMaleSheepClick(): void {
     if (!!this.maleSheep) {
       this.matingService.brandSheep(this.maleSheep);
     }
   }
 
-  public getVisibilityForFemaleSheep(): string {
+  getVisibilityForFemaleSheep(): string {
     return !!this.femaleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  public getVisibilityForMaleSheep(): string {
+  getVisibilityForMaleSheep(): string {
     return !!this.maleSheep ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  public getVisibilityForHeartIcon(): string {
+  getVisibilityForHeartIcon(): string {
     return this.isMatingNow ? this.VISIBILITY_VISIBLE : this.VISIBILITY_HIDDEN;
   }
 
-  public showMaleSheepAsBranded(): boolean {
+  showMaleSheepAsBranded(): boolean {
     if (!!this.maleSheep) {
       return this.maleSheep.isBranded();
     }
     return false;
   }
 
-  public showFemaleSheepAsBranded(): boolean {
+  showFemaleSheepAsBranded(): boolean {
     if (!!this.femaleSheep) {
       return this.femaleSheep.isBranded();
     }
@@ -84,7 +85,7 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   }
 
   private refreshData(): void {
-    this.isMatingNow = this.row.isMatingNow();
+    this.isMatingNow = this.row.isMatingNow;
     this.femaleSheep = this.row.femaleSheep;
     this.maleSheep = this.row.maleSheep;
   }

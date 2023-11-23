@@ -40,7 +40,7 @@ export class RowOfSheep {
     return this._rowIndex;
   }
 
-  isMatingNow(): boolean {
+  get isMatingNow(): boolean {
     return this._isMatingNow;
   }
 
