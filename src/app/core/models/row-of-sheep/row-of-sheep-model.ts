@@ -1,5 +1,6 @@
 import { FemaleSheep } from '../sheep/female-sheep-model';
 import { MaleSheep } from '../sheep/male-sheep-model';
+import { AbstractSheep } from "../sheep/abstract-sheep-model";
 
 export class RowOfSheep {
   private _femaleSheep: FemaleSheep | undefined;
@@ -23,39 +24,43 @@ export class RowOfSheep {
     this._didMatingProcessOccurRecently = didMatingProcessOccurRecently;
   }
 
-  public getFemaleSheep(): FemaleSheep | undefined {
+  get femaleSheep(): FemaleSheep | undefined {
     return this._femaleSheep;
   }
 
-  public getMaleSheep(): MaleSheep | undefined {
+  get maleSheep(): MaleSheep | undefined {
     return this._maleSheep;
   }
 
-  public getRowIndex(): number {
+  get allSheep(): AbstractSheep[] {
+    return [this.maleSheep, this.femaleSheep].filter((x): x is AbstractSheep => !!x);
+  }
+
+  getRowIndex(): number {
     return this._rowIndex;
   }
 
-  public getIsMatingNow(): boolean {
+  isMatingNow(): boolean {
     return this._isMatingNow;
   }
 
-  public getDidMatingProcessOccurRecently(): boolean {
+  didMatingProcessOccurRecently(): boolean {
     return this._didMatingProcessOccurRecently;
   }
 
-  public setIsMatingNow(value: boolean): void {
+  setIsMatingNow(value: boolean): void {
     this._isMatingNow = value;
   }
 
-  public setDidMatingProcessOccurRecently(value: boolean): void {
+  setDidMatingProcessOccurRecently(value: boolean): void {
     this._didMatingProcessOccurRecently = value;
   }
 
-  public setFemaleSheep(value: FemaleSheep): void {
+  setFemaleSheep(value: FemaleSheep): void {
     this._femaleSheep = value;
   }
 
-  public setMaleSheep(value: MaleSheep): void {
+  setMaleSheep(value: MaleSheep): void {
     this._maleSheep = value;
   }
 }

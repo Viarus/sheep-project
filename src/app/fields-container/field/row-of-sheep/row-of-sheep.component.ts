@@ -84,8 +84,8 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   }
 
   private refreshData(): void {
-    this.isMatingNow = this.row.getIsMatingNow();
-    this.femaleSheep = this.row.getFemaleSheep();
-    this.maleSheep = this.row.getMaleSheep();
+    this.isMatingNow = this.row.isMatingNow();
+    this.femaleSheep = this.row.femaleSheep;
+    this.maleSheep = this.row.maleSheep;
   }
 }

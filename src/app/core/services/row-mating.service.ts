@@ -1,66 +1,62 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { SheepFactoryService } from './sheep-factory.service';
 import { PublicConstantsService } from '../constants/public-constants.service';
 import { RowOfSheep } from '../models/row-of-sheep/row-of-sheep-model';
-import { Subject } from 'rxjs';
+import { delay, Subject, takeUntil, tap } from 'rxjs';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RowMatingService {
-
+export class RowMatingService implements OnDestroy{
   private readonly TIME_OF_MATING = 5000;
   private readonly TIME_OF_BREAK_BETWEEN_MATING = 8000;
 
-  private onRowDataChangeEventSubject: Subject<number> = new Subject<number>();
+  private onRowDataChangeEvent$: Subject<number> = new Subject<number>();
+  private matingStarted$: Subject<RowOfSheep> = new Subject();
+  private destroyed$: Subject<void> = new Subject();
 
   constructor(private sheepFactory: SheepFactoryService,
               private publicConstants: PublicConstantsService) {
+    this.matingStarted$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_MATING), tap(row => {
+      row.setIsMatingNow(false);
+      this.makeDidMatingOccurTemporarilyTrue(row);
+
+      if (this.wasMatingSuccessful(row)) {
+        this.sheepFactory.createAndAssignSheep(
+          this.publicConstants.LAMB_NEW_BORN_DEFAULT_NAME,
+          this.sheepFactory.gender_lamb,
+          row.femaleSheep!.getFieldTheSheepIsAssignedTo(),
+          false)
+      }
+    })).subscribe()
   }
 
-  public isPossibleToMate(row: RowOfSheep): boolean {
-    if (row.getFemaleSheep() && row.getMaleSheep()) {
-      if (!(this.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!) ||
-        row.getDidMatingProcessOccurRecently() ||
-        row.getIsMatingNow())) {
-        return true;
-      }
-    }
-    return false;
+  ngOnDestroy() {
+    this.destroyed$.next();
   }
 
   public startMatingProcessIfPossible(row: RowOfSheep): void {
     if (this.isPossibleToMate(row)) {
       row.setIsMatingNow(true);
-      this.onRowDataChangeEventSubject.next(row.getRowIndex());
-      new Promise(res => setTimeout(res, this.TIME_OF_MATING)).then(() => {
-        row.setIsMatingNow(false);
-        this.makeDidMatingOccurTemporarilyTrue(row);
-
-        if (this.wasMatingSuccessful(row)) {
-          this.sheepFactory.createAndAssignSheep(
-            this.publicConstants.LAMB_NEW_BORN_DEFAULT_NAME,
-            this.sheepFactory.gender_lamb,
-            row.getFemaleSheep()!.getFieldTheSheepIsAssignedTo(),
-            false)
-        }
-      })
+      this.onRowDataChangeEvent$.next(row.getRowIndex());
+      console.log('started?')
+      this.matingStarted$.next(row);
     }
   }
 
   public brandSheep(sheep: AbstractSheep): void {
     sheep.setIsBranded(true);
     sheep.getFieldTheSheepIsAssignedTo().getRows()[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
-    this.onRowDataChangeEventSubject.next(sheep.getRowIndexTheSheepIsAssignedTo()!);
+    this.onRowDataChangeEvent$.next(sheep.getRowIndexTheSheepIsAssignedTo()!);
   }
 
   public getOnRowDataChangeEventSubject(): Subject<number> {
-    return this.onRowDataChangeEventSubject;
+    return this.onRowDataChangeEvent$;
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
-    if (this.isAnySheepBranded(row.getFemaleSheep()!, row.getMaleSheep()!)) {
+    if (this.isAnySheepBranded(row.femaleSheep!, row.maleSheep!)) {
       return false;
     }
     return Math.random() >= 0.5;
@@ -68,10 +64,10 @@ export class RowMatingService {
 
   private makeDidMatingOccurTemporarilyTrue(row: RowOfSheep): void {
     row.setDidMatingProcessOccurRecently(true);
-    this.onRowDataChangeEventSubject.next(row.getRowIndex());
+    this.onRowDataChangeEvent$.next(row.getRowIndex());
     new Promise(res => setTimeout(res, this.TIME_OF_BREAK_BETWEEN_MATING)).then(() => {
       row.setDidMatingProcessOccurRecently(false);
-      this.onRowDataChangeEventSubject.next(row.getRowIndex());
+      this.onRowDataChangeEvent$.next(row.getRowIndex());
     })
   }
 
@@ -84,5 +80,17 @@ export class RowMatingService {
       }
     }
     return result;
+  }
+
+  private isPossibleToMate(row: RowOfSheep): boolean {
+    const femaleSheep = row.femaleSheep;
+    const maleSheep = row.maleSheep;
+    if (!femaleSheep || !maleSheep) {
+      return false;
+    }
+
+    return !this.isAnySheepBranded(femaleSheep, maleSheep) &&
+      !row.didMatingProcessOccurRecently() &&
+      !row.isMatingNow();
   }
 }
