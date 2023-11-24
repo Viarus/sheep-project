@@ -15,7 +15,7 @@ export class FieldStorageService {
   constructor(private publicConstants: PublicConstantsService) {
   }
 
-  public addFieldNameToArray(newFieldName: string): void {
+  addFieldNameToArray(newFieldName: string): void {
     this.fieldNames.forEach((fieldName) => {
       if (fieldName === newFieldName) {
         throw new Error(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
@@ -25,12 +25,12 @@ export class FieldStorageService {
     this.fieldNamesSubject.next(this.fieldNames);
   }
 
-  public addFieldToArray(newField: Field): void {
+  addFieldToArray(newField: Field): void {
     this.fields.push(newField);
     this.fieldsSubject.next(this.fields);
   }
 
-  public getFieldByName(name: string): Field {
+  getFieldByName(name: string): Field {
     if (!name) {
       throw new Error(this.publicConstants.PLEASE_SELECT_THE_FIELD);
     }
@@ -47,19 +47,19 @@ export class FieldStorageService {
     throw new Error(this.publicConstants.FIELD_NOT_FOUND_EXCEPTION);
   }
 
-  public getFields(): Field[] {
+  getFields(): Field[] {
     return this.fields;
   }
 
-  public getFieldNames(): string[] {
+  getFieldNames(): string[] {
     return this.fieldNames;
   }
 
-  public getFieldNamesSubject(): Subject<string[]> {
+  getFieldNamesSubject(): Subject<string[]> {
     return this.fieldNamesSubject;
   }
 
-  public getFieldsSubject(): Subject<Field[]> {
+  getFieldsSubject(): Subject<Field[]> {
     return this.fieldsSubject;
   }
 }

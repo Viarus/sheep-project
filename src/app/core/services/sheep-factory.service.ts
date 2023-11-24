@@ -12,10 +12,10 @@ import { FieldStorageService } from '../storages/field-storage.service';
   providedIn: 'root'
 })
 export class SheepFactoryService {
-  public readonly gender_female = 'FEMALE';
-  public readonly gender_male = 'MALE';
-  public readonly gender_lamb = 'LAMB';
-  public readonly gender_random = 'RANDOM';
+  readonly gender_female = 'FEMALE';
+  readonly gender_male = 'MALE';
+  readonly gender_lamb = 'LAMB';
+  readonly gender_random = 'RANDOM';
 
   private newSheepEventSubject: Subject<void> = new Subject<void>();
   private timeOfLambGrowth = 12000;
@@ -23,13 +23,13 @@ export class SheepFactoryService {
   constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
   }
 
-  public readonly arrayOfAllSheepGenders: string[] = [
+  readonly arrayOfAllSheepGenders: string[] = [
     this.gender_female,
     this.gender_lamb,
     this.gender_male
   ]
 
-  public createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): AbstractSheep {
+  createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): AbstractSheep {
     let newSheep: AbstractSheep;
     const field = this.sanitizedField(fieldOrFieldName);
     const cachedNumberOfRows = field.getNumberOfRows();
@@ -44,18 +44,18 @@ export class SheepFactoryService {
     return newSheep;
   }
 
-  public getRandomSheepGender(): string {
+  getRandomSheepGender(): string {
     return this.arrayOfAllSheepGenders[Math.floor(Math.random() * this.arrayOfAllSheepGenders.length)];
   }
 
-  public getRandomAdultSheepGender(): string {
+  getRandomAdultSheepGender(): string {
     if (Math.random() >= 0.5) {
       return this.gender_female;
     }
     return this.gender_male;
   }
 
-  public getNewSheepEventSubject(): Subject<void> {
+  getNewSheepEventSubject(): Subject<void> {
     return this.newSheepEventSubject;
   }
 
