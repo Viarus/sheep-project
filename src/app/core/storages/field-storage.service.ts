@@ -7,7 +7,7 @@ import { PublicConstantsService } from '../constants/public-constants.service';
   providedIn: 'root'
 })
 export class FieldStorageService {
-  private fields: Field[] = [];
+  private _fields: Field[] = [];
   private fieldNames: string[] = [];
   private fieldNamesSubject: Subject<string[]> = new Subject<string[]>();
   private fieldsSubject: Subject<Field[]> = new Subject<Field[]>();
@@ -16,18 +16,17 @@ export class FieldStorageService {
   }
 
   addFieldNameToArray(newFieldName: string): void {
-    this.fieldNames.forEach((fieldName) => {
-      if (fieldName === newFieldName) {
-        throw new Error(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
-      }
-    })
+    if (this.fieldNames.includes(newFieldName)) {
+      throw new Error(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
+    }
+
     this.fieldNames.push(newFieldName);
     this.fieldNamesSubject.next(this.fieldNames);
   }
 
   addFieldToArray(newField: Field): void {
-    this.fields.push(newField);
-    this.fieldsSubject.next(this.fields);
+    this._fields.push(newField);
+    this.fieldsSubject.next(this._fields);
   }
 
   getFieldByName(name: string): Field {
@@ -35,7 +34,7 @@ export class FieldStorageService {
       throw new Error(this.publicConstants.PLEASE_SELECT_THE_FIELD);
     }
     let fetchedField: Field | null = null;
-    for (let field of this.fields) {
+    for (let field of this._fields) {
       if (field.getFieldName() === name) {
         fetchedField = field;
         break;
@@ -47,12 +46,8 @@ export class FieldStorageService {
     throw new Error(this.publicConstants.FIELD_NOT_FOUND_EXCEPTION);
   }
 
-  getFields(): Field[] {
-    return this.fields;
-  }
-
-  getFieldNames(): string[] {
-    return this.fieldNames;
+  get fields(): Field[] {
+    return this._fields;
   }
 
   getFieldNamesSubject(): Subject<string[]> {

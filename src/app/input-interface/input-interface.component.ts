@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./input-interface.component.css']
 })
 export class InputInterfaceComponent implements OnInit, OnDestroy {
-  public sheepNameInput = '';
-  public selectedGender: string = this.getAllSheepGenders()[0];
-  public isBrandedSelected = false;
-  public fieldNameInput = '';
+  sheepNameInput = '';
+  selectedGender: string = this.getAllSheepGenders()[0];
+  isBrandedSelected = false;
+  fieldNameInput = '';
 
-  public selectedField: string[] = [];
-  public selectedFieldName = '';
+  selectedField: string[] = [];
+  selectedFieldName = '';
 
-  private fieldNames: string[] = this.fieldStorage.getFieldNames();
+  private fieldNames: string[] = this.fieldStorage.fields.map(field => field.getFieldName());
   private fieldStorageNamesSubscription: Subscription = new Subscription();
 
   constructor(private toastrService: ToastrService,
@@ -40,7 +40,7 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
     this.fieldStorageNamesSubscription.unsubscribe();
   }
 
-  public onCreatingSheep(): void {
+  onCreatingSheep(): void {
     if (this.isSheepInputValid()) {
       const newSheep = this.sheepFactory.createAndAssignSheep(this.sheepNameInput, this.selectedGender, this.selectedFieldName, this.isBrandedSelected);
       if (newSheep) {
@@ -49,7 +49,7 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isSheepInputValid(): boolean {
+  isSheepInputValid(): boolean {
     return !(
       this.isFieldNamesEmpty() ||
       !this.selectedFieldName ||
@@ -57,36 +57,36 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
     );
   }
 
-  public onAddField(): void {
+  onAddField(): void {
     if (!this.isFieldNameInputEmpty()) {
       this.fieldFactory.createField(this.fieldNameInput);
     }
   }
 
-  public isFieldNameInputEmpty(): boolean {
+  isFieldNameInputEmpty(): boolean {
     return !this.fieldNameInput;
   }
 
-  public getFieldNames(): string[] {
+  getFieldNames(): string[] {
     return this.fieldNames;
   }
 
-  public isFieldNamesEmpty(): boolean {
+  isFieldNamesEmpty(): boolean {
     return this.fieldNames.length === 0;
   }
 
-  public getAllSheepGenders(): string[] {
+  getAllSheepGenders(): string[] {
     return [...this.sheepFactory.arrayOfAllSheepGenders];
   }
 
-  public sanitizeSelectInput(): void {
+  sanitizeSelectInput(): void {
     //Needed because select element returns an array instead of string.
     if (this.selectedField.length > 0) {
       this.selectedFieldName = this.selectedField[0];
     }
   }
 
-  public isLambSelected(): boolean {
+  isLambSelected(): boolean {
     return this.selectedGender === this.sheepFactory.gender_lamb;
   }
 }

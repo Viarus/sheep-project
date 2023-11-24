@@ -11,7 +11,7 @@ export class FieldFactoryService {
   constructor(private fieldStorage: FieldStorageService, private errorHandler: ErrorHandlerService) {
   }
 
-  public createField(fieldName: string): void {
+  createField(fieldName: string): void {
     const newField = new Field(fieldName);
     try {
       this.fieldStorage.addFieldNameToArray(fieldName);
