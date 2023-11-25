@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './input-interface.component.html',
   styleUrls: ['./input-interface.component.css']
 })
-export class InputInterfaceComponent implements OnInit, OnDestroy {
+export class InputInterfaceComponent {
   sheepNameInput = '';
   selectedGender: string = this.getAllSheepGenders()[0];
   isBrandedSelected = false;
@@ -20,24 +20,11 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
   selectedField: string[] = [];
   selectedFieldName = '';
 
-  private fieldNames: string[] = this.fieldStorage.fields.map(field => field.getFieldName());
-  private fieldStorageNamesSubscription: Subscription = new Subscription();
-
   constructor(private toastrService: ToastrService,
-              private fieldStorage: FieldStorageService,
               private sheepFactory: SheepFactoryService,
               private publicConstants: PublicConstantsService,
-              private fieldFactory: FieldFactoryService) {
-  }
-
-  ngOnInit(): void {
-    this.fieldStorageNamesSubscription = this.fieldStorage.getFieldNamesSubject().subscribe((names) => {
-      this.fieldNames = [...names];
-    })
-  }
-
-  ngOnDestroy(): void {
-    this.fieldStorageNamesSubscription.unsubscribe();
+              private fieldFactory: FieldFactoryService,
+              public fieldStorage: FieldStorageService) {
   }
 
   onCreatingSheep(): void {
@@ -51,7 +38,7 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
 
   isSheepInputValid(): boolean {
     return !(
-      this.isFieldNamesEmpty() ||
+      this.noFieldsExist() ||
       !this.selectedFieldName ||
       !this.sheepNameInput
     );
@@ -67,16 +54,12 @@ export class InputInterfaceComponent implements OnInit, OnDestroy {
     return !this.fieldNameInput;
   }
 
-  getFieldNames(): string[] {
-    return this.fieldNames;
-  }
-
-  isFieldNamesEmpty(): boolean {
-    return this.fieldNames.length === 0;
+  noFieldsExist(): boolean {
+    return this.fieldStorage.fields.length <= 0;
   }
 
   getAllSheepGenders(): string[] {
-    return [...this.sheepFactory.arrayOfAllSheepGenders];
+    return [...this.sheepFactory.allSheepGenders];
   }
 
   sanitizeSelectInput(): void {

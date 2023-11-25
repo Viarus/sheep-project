@@ -9,8 +9,6 @@ import { PublicConstantsService } from '../constants/public-constants.service';
 export class FieldStorageService {
   private _fields: Field[] = [];
   private fieldNames: string[] = [];
-  private fieldNamesSubject: Subject<string[]> = new Subject<string[]>();
-  private fieldsSubject: Subject<Field[]> = new Subject<Field[]>();
 
   constructor(private publicConstants: PublicConstantsService) {
   }
@@ -21,12 +19,10 @@ export class FieldStorageService {
     }
 
     this.fieldNames.push(newFieldName);
-    this.fieldNamesSubject.next(this.fieldNames);
   }
 
   addFieldToArray(newField: Field): void {
     this._fields.push(newField);
-    this.fieldsSubject.next(this._fields);
   }
 
   getFieldByName(name: string): Field {
@@ -48,13 +44,5 @@ export class FieldStorageService {
 
   get fields(): Field[] {
     return this._fields;
-  }
-
-  getFieldNamesSubject(): Subject<string[]> {
-    return this.fieldNamesSubject;
-  }
-
-  getFieldsSubject(): Subject<Field[]> {
-    return this.fieldsSubject;
   }
 }

@@ -23,7 +23,7 @@ export class SheepFactoryService {
   constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
   }
 
-  readonly arrayOfAllSheepGenders: string[] = [
+  readonly allSheepGenders: string[] = [
     this.gender_female,
     this.gender_lamb,
     this.gender_male
@@ -45,7 +45,7 @@ export class SheepFactoryService {
   }
 
   getRandomSheepGender(): string {
-    return this.arrayOfAllSheepGenders[Math.floor(Math.random() * this.arrayOfAllSheepGenders.length)];
+    return this.allSheepGenders[Math.floor(Math.random() * this.allSheepGenders.length)];
   }
 
   getRandomAdultSheepGender(): string {
