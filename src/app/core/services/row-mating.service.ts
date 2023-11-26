@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { SheepFactoryService } from './sheep-factory.service';
-import { PublicConstantsService } from '../constants/public-constants.service';
 import { RowOfSheep } from '../models/row-of-sheep/row-of-sheep-model';
 import { delay, Subject, takeUntil, tap } from 'rxjs';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
@@ -11,19 +10,20 @@ import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 export class RowMatingService implements OnDestroy {
   private readonly TIME_OF_MATING = 5000;
   private readonly TIME_BETWEEN_MATING_ATTEMPTS = 8000;
+  private readonly lambDefaultName = 'Little Bob';
 
   private matingStarted$: Subject<RowOfSheep> = new Subject();
   private matingStopped$: Subject<RowOfSheep> = new Subject();
   private destroyed$: Subject<void> = new Subject();
 
-  constructor(private sheepFactory: SheepFactoryService, private publicConstants: PublicConstantsService) {
+  constructor(private sheepFactory: SheepFactoryService) {
     this.matingStarted$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_MATING), tap(row => {
       row.setIsMatingNow(false);
       row.setDidMatingProcessOccurRecently(true);
       this.matingStopped$.next(row);
       if (this.wasMatingSuccessful(row)) {
         this.sheepFactory.createAndAssignSheep(
-          this.publicConstants.LAMB_NEW_BORN_DEFAULT_NAME,
+          this.lambDefaultName,
           this.sheepFactory.gender_lamb,
           row.femaleSheep!.getFieldTheSheepIsAssignedTo(),
           false)

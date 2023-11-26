@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Field } from '../../core/models/field/field-model';
-import { SheepFactoryService } from '../../core/services/sheep-factory.service';
 import { RowMatingService } from '../../core/services/row-mating.service';
 import { ErrorHandlerService } from '../../core/services/error-handler.service';
-import { PublicConstantsService } from '../../core/constants/public-constants.service';
 
 @Component({
   selector: 'app-field',
@@ -12,11 +10,12 @@ import { PublicConstantsService } from '../../core/constants/public-constants.se
 })
 export class FieldComponent {
   @Input() field!: Field;
+  private readonly noMoreSheepErrorMessage = 'No more sheep to brand';
 
-  constructor(private sheepFactory: SheepFactoryService,
-              private rowMatingService: RowMatingService,
+
+  constructor(private rowMatingService: RowMatingService,
               private errorHandler: ErrorHandlerService,
-              private publicConstants: PublicConstantsService) {
+  ) {
   }
 
   public onBrandRandom(): void {
@@ -24,7 +23,7 @@ export class FieldComponent {
     if (!!randomSheep) {
       this.rowMatingService.brandSheep(randomSheep);
     } else {
-      this.errorHandler.handleError(this.publicConstants.NO_MORE_SHEEP_TO_BRAND);
+      this.errorHandler.handleError(this.noMoreSheepErrorMessage);
     }
   }
 }

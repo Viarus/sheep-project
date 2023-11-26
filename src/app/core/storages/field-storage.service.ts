@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Field } from '../models/field/field-model';
-import { PublicConstantsService } from '../constants/public-constants.service';
 import { ErrorHandlerService } from "../services/error-handler.service";
 
 @Injectable({
@@ -10,12 +9,18 @@ export class FieldStorageService {
   private _fields: Field[] = [];
   private fieldNames: string[] = [];
 
-  constructor(private publicConstants: PublicConstantsService, private errorHandler: ErrorHandlerService) {
+  private readonly pleaseSelectTheFieldErrorMessage = 'Please select the field!';
+  private readonly fieldNameDoNotExistsErrorMessage = 'Field name do not exists!';
+  private readonly fieldNameExistsErrorMessage = 'Field name already exists! Try a different name.';
+
+
+
+  constructor(private errorHandler: ErrorHandlerService) {
   }
 
   createField(fieldName: string): void {
     if (this.fieldNames.includes(fieldName)) {
-      this.errorHandler.handleError(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
+      this.errorHandler.handleError(this.fieldNameExistsErrorMessage);
       return;
     }
 
@@ -25,7 +30,7 @@ export class FieldStorageService {
 
   getFieldByName(name: string): Field {
     if (!name) {
-      throw new Error(this.publicConstants.PLEASE_SELECT_THE_FIELD);
+      throw new Error(this.pleaseSelectTheFieldErrorMessage);
     }
 
     const fetchedField: Field | undefined = this.fields.find((field) => field.getFieldName() === name);
@@ -33,7 +38,7 @@ export class FieldStorageService {
       return fetchedField;
     }
 
-    throw new Error(this.publicConstants.FIELD_NOT_FOUND_EXCEPTION);
+    throw new Error(this.fieldNameDoNotExistsErrorMessage);
   }
 
   get fields(): Field[] {

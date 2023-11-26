@@ -5,22 +5,22 @@ import { MaleSheep } from '../models/sheep/male-sheep-model';
 import { FemaleSheep } from '../models/sheep/female-sheep-model';
 import { LambSheep } from '../models/sheep/lamb-sheep-model';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
-import { PublicConstantsService } from '../constants/public-constants.service';
 import { FieldStorageService } from '../storages/field-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheepFactoryService {
-  readonly gender_female = 'FEMALE';
-  readonly gender_male = 'MALE';
+  private readonly wrongGenderErrorMessage = 'Gender not found. Is your sheep an alien?';
+  private readonly gender_female = 'FEMALE';
+  private readonly gender_male = 'MALE';
   readonly gender_lamb = 'LAMB';
-  readonly gender_random = 'RANDOM';
+  private readonly gender_random = 'RANDOM';
 
   private newSheepEventSubject: Subject<void> = new Subject<void>();
   private timeOfLambGrowth = 12000;
 
-  constructor(private publicConstants: PublicConstantsService, private fieldStorage: FieldStorageService) {
+  constructor(private fieldStorage: FieldStorageService) {
   }
 
   readonly allSheepGenders: string[] = [
@@ -70,7 +70,7 @@ export class SheepFactoryService {
         this.startGrowingProcess(newLamb);
         return newLamb;
       default:
-        throw new Error(this.publicConstants.WRONG_SHEEP_GENDER_EXCEPTION);
+        throw new Error(this.wrongGenderErrorMessage);
     }
   }
 
