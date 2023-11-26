@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { SheepFactoryService } from './sheep-factory.service';
 import { RowOfSheep } from '../models/row-of-sheep-model';
-import { delay, Subject, takeUntil, tap } from 'rxjs';
+import { delay, ReplaySubject, Subject, takeUntil, tap } from 'rxjs';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 import { ErrorHandlerService } from "./error-handler.service";
 
@@ -15,7 +15,7 @@ export class RowMatingService implements OnDestroy {
 
   private matingStarted$: Subject<RowOfSheep> = new Subject();
   private matingStopped$: Subject<RowOfSheep> = new Subject();
-  private destroyed$: Subject<void> = new Subject();
+  private destroyed$: ReplaySubject<void> = new ReplaySubject(1);
 
   constructor(private sheepFactory: SheepFactoryService, private errorHandler: ErrorHandlerService) {
     this.matingStarted$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_MATING), tap(row => {
@@ -60,28 +60,16 @@ export class RowMatingService implements OnDestroy {
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
     const allSheep = row.allSheep;
-    if (allSheep.length !== 2 || this.isAnySheepBranded(allSheep)) {
+    if (allSheep.length !== 2 || allSheep.some((sheep) => sheep.isBranded)) {
       return false;
     }
 
     return Math.random() >= 0.5;
   }
 
-  private isAnySheepBranded(sheep: AbstractSheep[]): boolean {
-    let result = false;
-    for (let i = 0; i < sheep.length; i++) {
-      if (sheep[i].isBranded) {
-        result = true;
-        break;
-      }
-    }
-
-    return result;
-  }
-
   private isPossibleToMate(row: RowOfSheep): boolean {
     const allSheep = row.allSheep;
-    return allSheep.length === 2 && !this.isAnySheepBranded(allSheep) &&
+    return allSheep.length === 2 && allSheep.every((sheep) => !sheep.isBranded) &&
       !row.didMatingProcessOccurRecently &&
       !row.isMatingNow;
   }
