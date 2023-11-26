@@ -3,6 +3,7 @@ import { SheepFactoryService } from './sheep-factory.service';
 import { RowOfSheep } from '../models/row-of-sheep-model';
 import { delay, Subject, takeUntil, tap } from 'rxjs';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
+import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class RowMatingService implements OnDestroy {
   private matingStopped$: Subject<RowOfSheep> = new Subject();
   private destroyed$: Subject<void> = new Subject();
 
-  constructor(private sheepFactory: SheepFactoryService) {
+  constructor(private sheepFactory: SheepFactoryService, private errorHandler: ErrorHandlerService) {
     this.matingStarted$.pipe(takeUntil(this.destroyed$), delay(this.TIME_OF_MATING), tap(row => {
       row.setIsMatingNow(false);
       row.setDidMatingProcessOccurRecently(true);
@@ -48,13 +49,18 @@ export class RowMatingService implements OnDestroy {
   }
 
   brandSheep(sheep: AbstractSheep): void {
-    sheep.setIsBranded(true);
-    sheep.field.rows[sheep.rowIndex!].setIsMatingNow(false);
+    if (AbstractSheep.isLamb(sheep)) {
+      this.errorHandler.handleError("You can't brand a lamb!");
+      return;
+    }
+
+    sheep.brand();
+    sheep.field.rows[sheep.rowIndex].setIsMatingNow(false);
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
     const allSheep = row.allSheep;
-    if (allSheep.length !==2 || this.isAnySheepBranded(allSheep)) {
+    if (allSheep.length !== 2 || this.isAnySheepBranded(allSheep)) {
       return false;
     }
 

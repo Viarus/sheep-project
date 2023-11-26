@@ -12,6 +12,10 @@ export class LambSheep extends AbstractSheep {
     return false;
   }
 
+  override get rowIndex(): number {
+    throw new Error(this.lambCantBeAssignedErrorMessage);
+  }
+
   override assignToRow(field: Field, rowIndex: number): void {
     throw new Error(this.lambCantBeAssignedErrorMessage);
   }
