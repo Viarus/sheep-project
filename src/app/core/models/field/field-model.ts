@@ -25,12 +25,14 @@ export class Field {
     if (sheep instanceof LambSheep) {
       return null;
     }
+
     const indexOfNewRow: number = sheep.getIndexOfNewRowForSheep(this);
     if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
       sheep.assignToRow(this, indexOfNewRow);
     } else {
-      sheep.createNewRowAndAssignSheepThere(this, indexOfNewRow);
+      sheep.createNewRowAndAssignSheepThere(this);
     }
+
     sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
     return indexOfNewRow;
   }

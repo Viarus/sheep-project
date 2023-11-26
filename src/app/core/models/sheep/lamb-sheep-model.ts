@@ -8,7 +8,7 @@ export class LambSheep extends AbstractSheep {
     throw new Error(this.lambCantBeAssignedErrorMessage);
   }
 
-  override createNewRowAndAssignSheepThere(field: Field, rowIndex: number): void {
+  override createNewRowAndAssignSheepThere(field: Field): void {
     throw new Error(this.lambCantBeAssignedErrorMessage);
   }
 

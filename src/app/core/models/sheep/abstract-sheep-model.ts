@@ -18,7 +18,7 @@ export abstract class AbstractSheep {
 
   abstract assignToRow(field: Field, rowIndex: number): void
 
-  abstract createNewRowAndAssignSheepThere(field: Field, rowIndex: number): void
+  abstract createNewRowAndAssignSheepThere(field: Field): void
 
   getName(): string {
     return this._name;

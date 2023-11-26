@@ -5,21 +5,15 @@ import { AbstractSheep } from "../sheep/abstract-sheep-model";
 export class RowOfSheep {
   private _femaleSheep: FemaleSheep | undefined;
   private _maleSheep: MaleSheep | undefined;
-  private readonly _rowIndex: number;
-  private readonly _fieldName: string;
   private _isMatingNow: boolean;
   private _didMatingProcessOccurRecently = false;
 
-  constructor(fieldName: string,
-              rowIndex: number,
-              femaleSheep: FemaleSheep | undefined,
+  constructor(femaleSheep: FemaleSheep | undefined,
               maleSheep: MaleSheep | undefined,
               isMatingNow: boolean = false,
               didMatingProcessOccurRecently: boolean = false) {
     this._femaleSheep = femaleSheep;
     this._maleSheep = maleSheep;
-    this._rowIndex = rowIndex;
-    this._fieldName = fieldName;
     this._isMatingNow = isMatingNow;
     this._didMatingProcessOccurRecently = didMatingProcessOccurRecently;
   }
@@ -36,15 +30,11 @@ export class RowOfSheep {
     return [this.maleSheep, this.femaleSheep].filter((x): x is AbstractSheep => !!x);
   }
 
-  getRowIndex(): number {
-    return this._rowIndex;
-  }
-
   get isMatingNow(): boolean {
     return this._isMatingNow;
   }
 
-  didMatingProcessOccurRecently(): boolean {
+  get didMatingProcessOccurRecently(): boolean {
     return this._didMatingProcessOccurRecently;
   }
 

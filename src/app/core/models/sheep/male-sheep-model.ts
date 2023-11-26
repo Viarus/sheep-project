@@ -19,7 +19,7 @@ export class MaleSheep extends AbstractSheep {
     field.getRows()[rowIndex].setMaleSheep(this);
   }
 
-  override createNewRowAndAssignSheepThere(field: Field, rowIndex: number): void {
-    field.pushIntoRowsArray(new RowOfSheep(field.getFieldName(), rowIndex, undefined, this));
+  override createNewRowAndAssignSheepThere(field: Field): void {
+    field.pushIntoRowsArray(new RowOfSheep(undefined, this));
   }
 }
