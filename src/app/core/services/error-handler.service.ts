@@ -9,8 +9,12 @@ export class ErrorHandlerService {
   constructor(private toastrService: ToastrService) {
   }
 
-  public handleError(error: any): void {
-    this.toastrService.error(this.getErrorMessage(error), 'Error');
+  public handleError(error: Error | string | unknown): void {
+    this.showErrorMessage(this.getErrorMessage(error));
+  }
+
+  private showErrorMessage(message: string) {
+    this.toastrService.error(message, 'Error');
   }
 
   private getErrorMessage(error: unknown): string {

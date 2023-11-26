@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FieldStorageService } from '../core/storages/field-storage.service';
 import { SheepFactoryService } from '../core/services/sheep-factory.service';
 import { PublicConstantsService } from '../core/constants/public-constants.service';
-import { FieldFactoryService } from '../core/services/field-factory.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-input-interface',
@@ -23,7 +21,6 @@ export class InputInterfaceComponent {
   constructor(private toastrService: ToastrService,
               private sheepFactory: SheepFactoryService,
               private publicConstants: PublicConstantsService,
-              private fieldFactory: FieldFactoryService,
               public fieldStorage: FieldStorageService) {
   }
 
@@ -46,7 +43,7 @@ export class InputInterfaceComponent {
 
   onAddField(): void {
     if (!this.isFieldNameInputEmpty()) {
-      this.fieldFactory.createField(this.fieldNameInput);
+      this.fieldStorage.createField(this.fieldNameInput);
     }
   }
 

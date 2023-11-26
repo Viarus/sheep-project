@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Field } from '../models/field/field-model';
-import { Subject } from 'rxjs';
 import { PublicConstantsService } from '../constants/public-constants.service';
+import { ErrorHandlerService } from "../services/error-handler.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,17 @@ export class FieldStorageService {
   private _fields: Field[] = [];
   private fieldNames: string[] = [];
 
-  constructor(private publicConstants: PublicConstantsService) {
+  constructor(private publicConstants: PublicConstantsService, private errorHandler: ErrorHandlerService) {
   }
 
-  addFieldNameToArray(newFieldName: string): void {
-    if (this.fieldNames.includes(newFieldName)) {
-      throw new Error(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
+  createField(fieldName: string): void {
+    if (this.fieldNames.includes(fieldName)) {
+      this.errorHandler.handleError(this.publicConstants.FIELD_NAME_EXISTS_EXCEPTION);
+      return;
     }
 
-    this.fieldNames.push(newFieldName);
+    this.fieldNames.push(fieldName);
+    this._fields.push(new Field(fieldName));
   }
 
   addFieldToArray(newField: Field): void {
@@ -29,16 +31,13 @@ export class FieldStorageService {
     if (!name) {
       throw new Error(this.publicConstants.PLEASE_SELECT_THE_FIELD);
     }
-    let fetchedField: Field | null = null;
-    for (let field of this._fields) {
-      if (field.getFieldName() === name) {
-        fetchedField = field;
-        break;
-      }
-    }
+
+    const fetchedField: Field | undefined = this.fields.find((field) => field.getFieldName() === name);
+
     if (!!fetchedField) {
       return fetchedField;
     }
+
     throw new Error(this.publicConstants.FIELD_NOT_FOUND_EXCEPTION);
   }
 
