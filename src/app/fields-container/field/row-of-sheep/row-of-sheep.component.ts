@@ -56,14 +56,14 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
 
   get isMaleBranded(): boolean {
     if (!!this.row.maleSheep) {
-      return this.row.maleSheep.isBranded();
+      return this.row.maleSheep.isBranded;
     }
     return false;
   }
 
   get isFemaleBranded(): boolean {
     if (!!this.row.femaleSheep) {
-      return this.row.femaleSheep.isBranded();
+      return this.row.femaleSheep.isBranded;
     }
     return false;
   }

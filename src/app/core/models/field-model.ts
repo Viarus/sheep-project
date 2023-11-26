@@ -58,7 +58,7 @@ export class Field {
   }
 
   getRandomUnbrandedSheep(): AbstractSheep | null {
-    const allUnbrandedSheep = this.sheepInside.filter((sheep) => !(sheep.isBranded() || AbstractSheep.isLamb(sheep)));
+    const allUnbrandedSheep = this.sheepInside.filter((sheep) => !(sheep.isBranded || AbstractSheep.isLamb(sheep)));
     return allUnbrandedSheep.length > 0 ? allUnbrandedSheep[Math.floor(Math.random() * allUnbrandedSheep.length)] : null;
   }
 

@@ -25,7 +25,7 @@ export abstract class AbstractSheep {
 
   abstract setRowIndexTheSheepIsAssignedTo(field: Field, value: number): void
 
-  getName(): string {
+  get name(): string {
     return this._name;
   }
 
@@ -33,11 +33,11 @@ export abstract class AbstractSheep {
     return true;
   }
 
-  isBranded(): boolean {
+  get isBranded(): boolean {
     return this._isBranded;
   }
 
-  getFieldTheSheepIsAssignedTo(): Field {
+  get field(): Field {
     return this.fieldTheSheepIsAssignedTo;
   }
 
@@ -45,7 +45,7 @@ export abstract class AbstractSheep {
     this._isBranded = value;
   }
 
-  getRowIndexTheSheepIsAssignedTo(): number | undefined {
+  get rowIndex(): number | undefined {
     return this._rowIndexTheSheepIsAssignedTo;
   }
 

@@ -25,7 +25,7 @@ export class RowMatingService implements OnDestroy {
         this.sheepFactory.createAndAssignSheep(
           this.lambDefaultName,
           this.sheepFactory.gender_lamb,
-          row.femaleSheep!.getFieldTheSheepIsAssignedTo(),
+          row.femaleSheep!.field,
           false)
       }
     })).subscribe();
@@ -49,7 +49,7 @@ export class RowMatingService implements OnDestroy {
 
   brandSheep(sheep: AbstractSheep): void {
     sheep.setIsBranded(true);
-    sheep.getFieldTheSheepIsAssignedTo().rows[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
+    sheep.field.rows[sheep.rowIndex!].setIsMatingNow(false);
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
@@ -64,7 +64,7 @@ export class RowMatingService implements OnDestroy {
   private isAnySheepBranded(sheep: AbstractSheep[]): boolean {
     let result = false;
     for (let i = 0; i < sheep.length; i++) {
-      if (sheep[i].isBranded()) {
+      if (sheep[i].isBranded) {
         result = true;
         break;
       }
