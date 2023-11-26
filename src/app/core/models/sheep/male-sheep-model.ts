@@ -7,19 +7,19 @@ export class MaleSheep extends AbstractSheep {
     super(name, field, isBranded);
   }
 
-  public override assignToField(field: Field): void {
+  override assignToField(field: Field): void {
     field.pushIntoMaleSheepInsideArray(this);
   }
 
-  public override getIndexOfNewRowForSheep(field: Field): number {
+  override getIndexOfNewRowForSheep(field: Field): number {
     return field.getMaleSheep().length - 1;
   }
 
-  public override assignToRow(field: Field, rowIndex: number): void {
+  override assignToRow(field: Field, rowIndex: number): void {
     field.getRows()[rowIndex].setMaleSheep(this);
   }
 
-  public override createNewRowAndAssignSheepThere(field: Field, rowIndex: number): void {
+  override createNewRowAndAssignSheepThere(field: Field, rowIndex: number): void {
     field.pushIntoRowsArray(new RowOfSheep(field.getFieldName(), rowIndex, undefined, this));
   }
 }
