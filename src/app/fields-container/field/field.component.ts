@@ -20,7 +20,7 @@ export class FieldComponent {
 
   public onBrandRandom(): void {
     const randomSheep = this.field.getRandomUnbrandedSheep();
-    if (!!randomSheep) {
+    if (randomSheep) {
       this.rowMatingService.brandSheep(randomSheep);
     } else {
       this.errorHandler.handleError(this.noMoreSheepErrorMessage);

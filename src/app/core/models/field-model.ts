@@ -33,10 +33,6 @@ export class Field {
     sheep.setRowIndexTheSheepIsAssignedTo(this, indexOfNewRow);
   }
 
-  pushIntoRowsArray(row: RowOfSheep): void {
-    this._rows.push(row);
-  }
-
   get numberOfRows(): number {
     return this.biggerArrayOfSheep.length;
   }
@@ -62,11 +58,8 @@ export class Field {
   }
 
   getRandomUnbrandedSheep(): AbstractSheep | null {
-    const allUnbrandedSheep = this.allUnbrandedSheep;
-    if (allUnbrandedSheep.length > 0) {
-      return this.allUnbrandedSheep[Math.floor(Math.random() * this.allUnbrandedSheep.length)];
-    }
-    return null;
+    const allUnbrandedSheep = this.sheepInside.filter((sheep) => !(sheep.isBranded() || AbstractSheep.isLamb(sheep)));
+    return allUnbrandedSheep.length > 0 ? allUnbrandedSheep[Math.floor(Math.random() * allUnbrandedSheep.length)] : null;
   }
 
   removeOneLamb(): void {
@@ -92,11 +85,5 @@ export class Field {
 
   get biggerArrayOfSheep(): AbstractSheep[] {
     return this.allFemaleSheep.length > this.allMaleSheep.length ? this.allFemaleSheep : this.allMaleSheep;
-  }
-
-  private get allUnbrandedSheep(): AbstractSheep[] {
-    return this.sheepInside.filter((sheep) => {
-      return !sheep.isBranded() && !(sheep instanceof LambSheep);
-    })
   }
 }
