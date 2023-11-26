@@ -16,12 +16,13 @@ export class Field {
     this._fieldName = fieldName;
   }
 
-  addSheep(sheep: AbstractSheep): void {
+  addSheep(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): void {
     this.sheepInside.push(sheep);
-    sheep.assignToField(this);
-  }
+    if (AbstractSheep.isLamb(sheep)) {
+      this.lambSheepInside.push(sheep);
+      return;
+    }
 
-  assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number | null {
     const indexOfNewRow: number = sheep.getIndexOfNewRowForSheep(this);
     if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
       sheep.assignToRow(this, indexOfNewRow);
@@ -29,20 +30,7 @@ export class Field {
       sheep.createNewRowAndAssignSheepThere(this);
     }
 
-    sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
-    return indexOfNewRow;
-  }
-
-  pushIntoFemaleSheepInsideArray(sheep: FemaleSheep): void {
-    this.femaleSheepInside.push(sheep);
-  }
-
-  pushIntoMaleSheepInsideArray(sheep: MaleSheep): void {
-    this.maleSheepInside.push(sheep);
-  }
-
-  pushIntoLambSheepInsideArray(sheep: LambSheep): void {
-    this.lambSheepInside.push(sheep);
+    sheep.setRowIndexTheSheepIsAssignedTo(this, indexOfNewRow);
   }
 
   pushIntoRowsArray(row: RowOfSheep): void {

@@ -7,12 +7,8 @@ export class MaleSheep extends AbstractSheep {
     super(name, field, isBranded);
   }
 
-  override assignToField(field: Field): void {
-    field.pushIntoMaleSheepInsideArray(this);
-  }
-
   override getIndexOfNewRowForSheep(field: Field): number {
-    return field.allMaleSheep.length - 1;
+    return field.allMaleSheep.length;
   }
 
   override assignToRow(field: Field, rowIndex: number): void {
@@ -21,5 +17,10 @@ export class MaleSheep extends AbstractSheep {
 
   override createNewRowAndAssignSheepThere(field: Field): void {
     field.pushIntoRowsArray(new RowOfSheep(undefined, this));
+  }
+
+  override setRowIndexTheSheepIsAssignedTo(field: Field, value: number) {
+    this._rowIndexTheSheepIsAssignedTo = value;
+    field.allMaleSheep.push(this)
   }
 }

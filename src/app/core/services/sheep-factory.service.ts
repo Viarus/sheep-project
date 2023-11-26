@@ -38,8 +38,7 @@ export class SheepFactoryService {
     } else {
       newSheep = this.createSheepWithSpecifiedGender(name, gender, field, isBranded);
     }
-    field.addSheep(newSheep);
-    field.assignSheepToRow(newSheep, cachedNumberOfRows);
+    field.addSheep(newSheep, cachedNumberOfRows);
     this.newSheepEventSubject.next();
     return newSheep;
   }

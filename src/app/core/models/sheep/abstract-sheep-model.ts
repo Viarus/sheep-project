@@ -1,4 +1,5 @@
 import { Field } from '../field-model';
+import { LambSheep } from "./lamb-sheep-model";
 
 export abstract class AbstractSheep {
   protected _name: string;
@@ -12,7 +13,9 @@ export abstract class AbstractSheep {
     this._isBranded = isBranded;
   }
 
-  abstract assignToField(field: Field): void
+  static isLamb(sheep: AbstractSheep): sheep is LambSheep {
+    return !sheep.isAdult;
+  }
 
   abstract getIndexOfNewRowForSheep(field: Field): number
 
@@ -20,8 +23,14 @@ export abstract class AbstractSheep {
 
   abstract createNewRowAndAssignSheepThere(field: Field): void
 
+  abstract setRowIndexTheSheepIsAssignedTo(field: Field, value: number): void
+
   getName(): string {
     return this._name;
+  }
+
+  get isAdult(): boolean {
+    return true;
   }
 
   isBranded(): boolean {
@@ -40,7 +49,4 @@ export abstract class AbstractSheep {
     return this._rowIndexTheSheepIsAssignedTo;
   }
 
-  setRowIndexTheSheepIsAssignedTo(value: number): void {
-    this._rowIndexTheSheepIsAssignedTo = value;
-  }
 }
