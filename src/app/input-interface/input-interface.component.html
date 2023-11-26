@@ -39,7 +39,7 @@
     <div class="flex-child" *ngIf="!noFieldsExist()">
       <select class="form-select" size="2" multiple [(ngModel)]="selectedField" (click)="sanitizeSelectInput()">
         <option *ngFor="let field of fieldStorage.fields"
-                [ngValue]="field.getFieldName()">{{ field.getFieldName() }}</option>
+                [ngValue]="field.fieldName">{{ field.fieldName }}</option>
       </select>
     </div>
     <div class="flex-child">

@@ -33,7 +33,7 @@ export class FieldStorageService {
       throw new Error(this.pleaseSelectTheFieldErrorMessage);
     }
 
-    const fetchedField: Field | undefined = this.fields.find((field) => field.getFieldName() === name);
+    const fetchedField: Field | undefined = this.fields.find((field) => field.fieldName === name);
     if (!!fetchedField) {
       return fetchedField;
     }

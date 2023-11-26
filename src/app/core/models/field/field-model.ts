@@ -5,15 +5,15 @@ import { LambSheep } from '../sheep/lamb-sheep-model';
 import { RowOfSheep } from '../row-of-sheep/row-of-sheep-model';
 
 export class Field {
-  private readonly fieldName: string;
-  private rows: RowOfSheep[] = []
+  private readonly _fieldName: string;
+  private _rows: RowOfSheep[] = []
   private sheepInside: AbstractSheep[] = [];
   private maleSheepInside: MaleSheep[] = [];
   private femaleSheepInside: FemaleSheep[] = [];
   private lambSheepInside: LambSheep[] = [];
 
   constructor(fieldName: string) {
-    this.fieldName = fieldName;
+    this._fieldName = fieldName;
   }
 
   addSheep(sheep: AbstractSheep): void {
@@ -22,10 +22,6 @@ export class Field {
   }
 
   assignSheepToRow(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): number | null {
-    if (sheep instanceof LambSheep) {
-      return null;
-    }
-
     const indexOfNewRow: number = sheep.getIndexOfNewRowForSheep(this);
     if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
       sheep.assignToRow(this, indexOfNewRow);
@@ -35,10 +31,6 @@ export class Field {
 
     sheep.setRowIndexTheSheepIsAssignedTo(indexOfNewRow);
     return indexOfNewRow;
-  }
-
-  getArrayOfTheBiggerAmountOfSheep(): AbstractSheep[] {
-    return this.getFemaleSheep().length > this.getMaleSheep().length ? this.getFemaleSheep() : this.getMaleSheep();
   }
 
   pushIntoFemaleSheepInsideArray(sheep: FemaleSheep): void {
@@ -54,63 +46,67 @@ export class Field {
   }
 
   pushIntoRowsArray(row: RowOfSheep): void {
-    this.rows.push(row);
+    this._rows.push(row);
   }
 
-  getNumberOfRows(): number {
-    return this.getArrayOfTheBiggerAmountOfSheep().length;
+  get numberOfRows(): number {
+    return this.biggerArrayOfSheep.length;
   }
 
-  getFieldName(): string {
-    return this.fieldName;
+  get fieldName(): string {
+    return this._fieldName;
   }
 
-  getRows(): RowOfSheep[] {
-    return this.rows;
+  get rows(): RowOfSheep[] {
+    return this._rows;
   }
 
-  getAllSheep(): AbstractSheep[] {
+  get allSheep(): AbstractSheep[] {
     return this.sheepInside;
   }
 
-  getMaleSheep(): MaleSheep[] {
+  get allMaleSheep(): MaleSheep[] {
     return this.maleSheepInside;
   }
 
-  getFemaleSheep(): FemaleSheep[] {
+  get allFemaleSheep(): FemaleSheep[] {
     return this.femaleSheepInside;
   }
 
-  getLambSheep(): LambSheep[] {
-    return this.lambSheepInside;
-  }
-
   getRandomUnbrandedSheep(): AbstractSheep | null {
-    const allUnbrandedSheep = this.getAllUnbrandedSheep();
+    const allUnbrandedSheep = this.allUnbrandedSheep;
     if (allUnbrandedSheep.length > 0) {
-      return this.getAllUnbrandedSheep()[Math.floor(Math.random() * this.getAllUnbrandedSheep().length)];
+      return this.allUnbrandedSheep[Math.floor(Math.random() * this.allUnbrandedSheep.length)];
     }
     return null;
   }
 
   removeOneLamb(): void {
-    this.getLambSheep().pop();
+    this.allLambSheep.pop();
 
     let indexToDelete = -1;
-    this.getAllSheep().forEach((sheep, index) => {
+    this.allSheep.forEach((sheep, index) => {
       if (sheep instanceof LambSheep) {
         indexToDelete = index;
       }
     });
 
     if (indexToDelete >= 0) {
-      this.getAllSheep().splice(indexToDelete, 1);
+      this.allSheep.splice(indexToDelete, 1);
     } else {
       throw new Error('Lamb has escaped from growing up, I guess it will be happy forever...');
     }
   }
 
-  private getAllUnbrandedSheep(): AbstractSheep[] {
+  get allLambSheep(): LambSheep[] {
+    return this.lambSheepInside;
+  }
+
+  get biggerArrayOfSheep(): AbstractSheep[] {
+    return this.allFemaleSheep.length > this.allMaleSheep.length ? this.allFemaleSheep : this.allMaleSheep;
+  }
+
+  private get allUnbrandedSheep(): AbstractSheep[] {
     return this.sheepInside.filter((sheep) => {
       return !sheep.isBranded() && !(sheep instanceof LambSheep);
     })

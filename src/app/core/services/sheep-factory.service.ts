@@ -32,7 +32,7 @@ export class SheepFactoryService {
   createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): AbstractSheep {
     let newSheep: AbstractSheep;
     const field = this.sanitizedField(fieldOrFieldName);
-    const cachedNumberOfRows = field.getNumberOfRows();
+    const cachedNumberOfRows = field.numberOfRows;
     if (gender === this.gender_random) {
       newSheep = this.createSheepWithSpecifiedGender(name, this.getRandomSheepGender(), field, isBranded);
     } else {
@@ -80,6 +80,8 @@ export class SheepFactoryService {
 
   private onLambGrown(lamb: LambSheep): void {
     this.createAndAssignSheep(lamb.getName(), this.getRandomAdultSheepGender(), lamb.getFieldTheSheepIsAssignedTo());
+
+    // TODO it must be the same lamb!
     lamb.getFieldTheSheepIsAssignedTo().removeOneLamb();
   }
 

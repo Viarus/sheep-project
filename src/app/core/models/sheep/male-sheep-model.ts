@@ -12,11 +12,11 @@ export class MaleSheep extends AbstractSheep {
   }
 
   override getIndexOfNewRowForSheep(field: Field): number {
-    return field.getMaleSheep().length - 1;
+    return field.allMaleSheep.length - 1;
   }
 
   override assignToRow(field: Field, rowIndex: number): void {
-    field.getRows()[rowIndex].setMaleSheep(this);
+    field.rows[rowIndex].setMaleSheep(this);
   }
 
   override createNewRowAndAssignSheepThere(field: Field): void {

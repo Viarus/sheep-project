@@ -49,7 +49,7 @@ export class RowMatingService implements OnDestroy {
 
   brandSheep(sheep: AbstractSheep): void {
     sheep.setIsBranded(true);
-    sheep.getFieldTheSheepIsAssignedTo().getRows()[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
+    sheep.getFieldTheSheepIsAssignedTo().rows[sheep.getRowIndexTheSheepIsAssignedTo()!].setIsMatingNow(false);
   }
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
