@@ -12,7 +12,7 @@ export class InputInterfaceComponent {
   private readonly sheepCreatedMessage = 'Sheep created successfully!'
 
   sheepNameInput = '';
-  selectedGender: string = this.sheepFactory.getSheepGenders(true)[0];
+  selectedGender: string = this.sheepFactory.getGenders(true)[0];
   isBrandedSelected = false;
   fieldNameInput = '';
 
@@ -26,7 +26,7 @@ export class InputInterfaceComponent {
 
   onCreatingSheep(): void {
     if (this.isSheepInputValid()) {
-      const newSheep = this.sheepFactory.createAndAssignSheep(this.sheepNameInput, this.selectedGender, this.selectedFieldName, this.isBrandedSelected);
+      const newSheep = this.sheepFactory.createAndAssignSheep(this.sheepNameInput, this.selectedGender, this.fieldStorage.getFieldByName(this.selectedFieldName), this.isBrandedSelected);
       if (newSheep) {
         this.toastrService.success(this.sheepCreatedMessage);
       }

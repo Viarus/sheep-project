@@ -33,29 +33,29 @@ export class Field {
     sheep.setRowIndexTheSheepIsAssignedTo(this, indexOfNewRow);
   }
 
-  getRandomUnbrandedSheep(): AbstractSheep | null {
-    const allUnbrandedSheep = this.sheepInside.filter((sheep) => !(sheep.isBranded || AbstractSheep.isLamb(sheep)));
-    return allUnbrandedSheep.length > 0 ? allUnbrandedSheep[Math.floor(Math.random() * allUnbrandedSheep.length)] : null;
-  }
-
   removeOneLamb(lamb: LambSheep): void {
-    const indexToDeleteForLambArray = this.lambSheepInside.findIndex(l => l.name === lamb.name);
-    const indexToDeleteForAllArray = this.sheepInside.findIndex(s => s.name === lamb.name);
-    if (indexToDeleteForLambArray >= 0) {
-      this.lambSheepInside.splice(indexToDeleteForLambArray, 1);
+    const indexForLambArray = this.lambSheepInside.findIndex(l => l.name === lamb.name);
+    const indexForAllArray = this.sheepInside.findIndex(s => s.name === lamb.name && !s.isAdult);
+    if (indexForLambArray >= 0) {
+      this.lambSheepInside.splice(indexForLambArray, 1);
     } else {
       throw new Error('Lamb has escaped from growing up, I guess it will be happy forever...');
     }
 
-    if (indexToDeleteForAllArray >= 0) {
-      this.sheepInside.splice(indexToDeleteForLambArray, 1);
+    if (indexForAllArray >= 0) {
+      this.sheepInside.splice(indexForLambArray, 1);
     } else {
       throw new Error('Data is desynchronized! I wonder how...');
     }
   }
 
+  getRandomUnbrandedSheep(): AbstractSheep | null {
+    const allUnbrandedSheep = this.sheepInside.filter((sheep) => !(sheep.isBranded || AbstractSheep.isLamb(sheep)));
+    return allUnbrandedSheep.length > 0 ? allUnbrandedSheep[Math.floor(Math.random() * allUnbrandedSheep.length)] : null;
+  }
+
   get biggerArrayOfSheep(): AbstractSheep[] {
-    return this.allFemaleSheep.length > this.allMaleSheep.length ? this.allFemaleSheep : this.allMaleSheep;
+    return this.femaleSheepInside.length > this.maleSheepInside.length ? this.femaleSheepInside : this.maleSheepInside;
   }
 
   get numberOfRows(): number {
@@ -70,10 +70,6 @@ export class Field {
     return this._rows;
   }
 
-  get allSheep(): AbstractSheep[] {
-    return this.sheepInside;
-  }
-
   get allMaleSheep(): MaleSheep[] {
     return this.maleSheepInside;
   }
@@ -82,7 +78,7 @@ export class Field {
     return this.femaleSheepInside;
   }
 
-  get allLambSheep(): LambSheep[] {
+  get lambs(): LambSheep[] {
     return this.lambSheepInside;
   }
 }
