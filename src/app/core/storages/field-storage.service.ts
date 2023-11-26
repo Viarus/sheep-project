@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Field } from '../models/field/field-model';
+import { Field } from '../models/field-model';
 import { ErrorHandlerService } from "../services/error-handler.service";
 
 @Injectable({

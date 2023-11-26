@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SheepFactoryService } from '../../../core/services/sheep-factory.service';
 import { Subject, Subscription, takeUntil, tap } from 'rxjs';
-import { RowOfSheep } from '../../../core/models/row-of-sheep/row-of-sheep-model';
+import { RowOfSheep } from '../../../core/models/row-of-sheep-model';
 import { RowMatingService } from '../../../core/services/row-mating.service';
 
 @Component({

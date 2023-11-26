@@ -1,8 +1,8 @@
-import { AbstractSheep } from '../sheep/abstract-sheep-model';
-import { MaleSheep } from '../sheep/male-sheep-model';
-import { FemaleSheep } from '../sheep/female-sheep-model';
-import { LambSheep } from '../sheep/lamb-sheep-model';
-import { RowOfSheep } from '../row-of-sheep/row-of-sheep-model';
+import { AbstractSheep } from './sheep/abstract-sheep-model';
+import { MaleSheep } from './sheep/male-sheep-model';
+import { FemaleSheep } from './sheep/female-sheep-model';
+import { LambSheep } from './sheep/lamb-sheep-model';
+import { RowOfSheep } from './row-of-sheep-model';
 
 export class Field {
   private readonly _fieldName: string;

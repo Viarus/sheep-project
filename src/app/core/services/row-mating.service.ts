@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { SheepFactoryService } from './sheep-factory.service';
-import { RowOfSheep } from '../models/row-of-sheep/row-of-sheep-model';
+import { RowOfSheep } from '../models/row-of-sheep-model';
 import { delay, Subject, takeUntil, tap } from 'rxjs';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 

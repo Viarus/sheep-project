@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Field } from '../../core/models/field/field-model';
+import { Field } from '../../core/models/field-model';
 import { RowMatingService } from '../../core/services/row-mating.service';
 import { ErrorHandlerService } from '../../core/services/error-handler.service';
 

@@ -1,6 +1,6 @@
 import { AbstractSheep } from './abstract-sheep-model';
-import { Field } from '../field/field-model';
-import { RowOfSheep } from '../row-of-sheep/row-of-sheep-model';
+import { Field } from '../field-model';
+import { RowOfSheep } from '../row-of-sheep-model';
 
 export class FemaleSheep extends AbstractSheep {
   constructor(name: string, field: Field, isBranded: boolean = false) {

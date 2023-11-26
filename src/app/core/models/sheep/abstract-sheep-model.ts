@@ -1,4 +1,4 @@
-import { Field } from '../field/field-model';
+import { Field } from '../field-model';
 
 export abstract class AbstractSheep {
   protected _name: string;

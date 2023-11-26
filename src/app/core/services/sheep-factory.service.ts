@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Field } from '../models/field/field-model';
+import { Field } from '../models/field-model';
 import { MaleSheep } from '../models/sheep/male-sheep-model';
 import { FemaleSheep } from '../models/sheep/female-sheep-model';
 import { LambSheep } from '../models/sheep/lamb-sheep-model';
