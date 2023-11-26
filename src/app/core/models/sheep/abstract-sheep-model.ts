@@ -11,19 +11,16 @@ export abstract class AbstractSheep {
     this._name = name;
     this.fieldTheSheepIsAssignedTo = field;
     this._isBranded = isBranded;
+    field.allSheep.push(this);
   }
 
   static isLamb(sheep: AbstractSheep): sheep is LambSheep {
     return !sheep.isAdult;
   }
 
-  abstract getIndexOfNewRowForSheep(field: Field): number
-
-  abstract assignToRow(field: Field, rowIndex: number): void
-
-  abstract createNewRowAndAssignSheepThere(field: Field): void
-
-  abstract setRowIndexTheSheepIsAssignedTo(field: Field, value: number): void
+  setRowIndex(value: number): void {
+    this._rowIndexTheSheepIsAssignedTo = value;
+  }
 
   get name(): string {
     return this._name;

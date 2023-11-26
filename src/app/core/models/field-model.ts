@@ -16,23 +16,6 @@ export class Field {
     this._fieldName = fieldName;
   }
 
-  addSheep(sheep: AbstractSheep, numberOfRowsBeforeNewSheepAdded: number): void {
-    this.sheepInside.push(sheep);
-    if (AbstractSheep.isLamb(sheep)) {
-      this.lambSheepInside.push(sheep);
-      return;
-    }
-
-    const indexOfNewRow: number = sheep.getIndexOfNewRowForSheep(this);
-    if (numberOfRowsBeforeNewSheepAdded > indexOfNewRow) {
-      sheep.assignToRow(this, indexOfNewRow);
-    } else {
-      sheep.createNewRowAndAssignSheepThere(this);
-    }
-
-    sheep.setRowIndexTheSheepIsAssignedTo(this, indexOfNewRow);
-  }
-
   removeOneLamb(lamb: LambSheep): void {
     const indexForLambArray = this.lambSheepInside.findIndex(l => l.name === lamb.name);
     const indexForAllArray = this.sheepInside.findIndex(s => s.name === lamb.name && !s.isAdult);
@@ -43,7 +26,7 @@ export class Field {
     }
 
     if (indexForAllArray >= 0) {
-      this.sheepInside.splice(indexForLambArray, 1);
+      this.sheepInside.splice(indexForAllArray, 1);
     } else {
       throw new Error('Data is desynchronized! I wonder how...');
     }
@@ -76,6 +59,10 @@ export class Field {
 
   get allFemaleSheep(): FemaleSheep[] {
     return this.femaleSheepInside;
+  }
+
+  get allSheep(): AbstractSheep[] {
+    return this.sheepInside;
   }
 
   get lambs(): LambSheep[] {

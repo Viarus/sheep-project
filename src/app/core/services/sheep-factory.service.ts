@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { first, Subject, tap } from 'rxjs';
 import { Field } from '../models/field-model';
 import { MaleSheep } from '../models/sheep/male-sheep-model';
 import { FemaleSheep } from '../models/sheep/female-sheep-model';
@@ -17,7 +17,7 @@ export class SheepFactoryService {
   private readonly gender_male = 'MALE';
   private readonly wrongGenderErrorMessage = 'Gender not found. Is your sheep an alien?';
   private readonly gender_random = 'RANDOM';
-  private readonly timeOfLambGrowth = 12000;
+
 
   private _newSheep$: Subject<void> = new Subject<void>();
 
@@ -27,8 +27,11 @@ export class SheepFactoryService {
   createLamb(name: string, field: Field): LambSheep | null {
     const lamb = this.createSheepWithSpecifiedGender(name, this.gender_lamb, field);
     if (AbstractSheep.isLamb(lamb)) {
-      field.addSheep(lamb, field.numberOfRows);
-      this.startGrowingProcess(lamb);
+      lamb.lambGrown$.pipe(first(), tap(() => {
+        lamb.field.removeOneLamb(lamb);
+        this.createAndAssignSheep(lamb.name, this.getRandomAdultGender(), lamb.field);
+      })).subscribe();
+
       return lamb;
     } else {
       this.errorHandler.handleError('Lamb was created as an adult... something went horribly wrong!');
@@ -43,7 +46,6 @@ export class SheepFactoryService {
     }
 
     const newSheep = this.createSheepWithSpecifiedGender(name, gender, field, isBranded);
-    field.addSheep(newSheep, field.numberOfRows);
     this._newSheep$.next();
     return newSheep;
   }
@@ -76,20 +78,9 @@ export class SheepFactoryService {
       case this.gender_male:
         return new MaleSheep(name, field, isBranded);
       case this.gender_lamb:
-        const newLamb: LambSheep = new LambSheep(name, field);
-        this.startGrowingProcess(newLamb);
-        return newLamb;
+        return new LambSheep(name, field);
       default:
         throw new Error(this.wrongGenderErrorMessage);
     }
-  }
-
-  private startGrowingProcess(lamb: LambSheep): void {
-    new Promise(resolve => setTimeout(resolve, this.timeOfLambGrowth)).then(() => this.onLambGrown(lamb));
-  }
-
-  private onLambGrown(lamb: LambSheep): void {
-    lamb.field.removeOneLamb(lamb);
-    this.createAndAssignSheep(lamb.name, this.getRandomAdultGender(), lamb.field);
   }
 }
