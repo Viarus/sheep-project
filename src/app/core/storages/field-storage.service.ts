@@ -23,17 +23,12 @@ export class FieldStorageService {
     this._fields.push(new Field(fieldName));
   }
 
-  addFieldToArray(newField: Field): void {
-    this._fields.push(newField);
-  }
-
   getFieldByName(name: string): Field {
     if (!name) {
       throw new Error(this.publicConstants.PLEASE_SELECT_THE_FIELD);
     }
 
     const fetchedField: Field | undefined = this.fields.find((field) => field.getFieldName() === name);
-
     if (!!fetchedField) {
       return fetchedField;
     }
