@@ -38,21 +38,17 @@ export class Field {
     return allUnbrandedSheep.length > 0 ? allUnbrandedSheep[Math.floor(Math.random() * allUnbrandedSheep.length)] : null;
   }
 
-  removeOneLamb(): void {
-    this.allLambSheep.pop();
-
-    let indexToDelete = -1;
-    this.allSheep.forEach((sheep, index) => {
-      if (sheep instanceof LambSheep) {
-        indexToDelete = index;
-      }
-    });
-
+  removeOneLamb(lamb: LambSheep): void {
+    const indexToDelete = this.allLambSheep.indexOf(lamb);
     if (indexToDelete >= 0) {
       this.allSheep.splice(indexToDelete, 1);
     } else {
       throw new Error('Lamb has escaped from growing up, I guess it will be happy forever...');
     }
+  }
+
+  get biggerArrayOfSheep(): AbstractSheep[] {
+    return this.allFemaleSheep.length > this.allMaleSheep.length ? this.allFemaleSheep : this.allMaleSheep;
   }
 
   get numberOfRows(): number {
@@ -81,9 +77,5 @@ export class Field {
 
   get allLambSheep(): LambSheep[] {
     return this.lambSheepInside;
-  }
-
-  get biggerArrayOfSheep(): AbstractSheep[] {
-    return this.allFemaleSheep.length > this.allMaleSheep.length ? this.allFemaleSheep : this.allMaleSheep;
   }
 }

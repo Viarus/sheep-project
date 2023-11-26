@@ -79,9 +79,7 @@ export class SheepFactoryService {
 
   private onLambGrown(lamb: LambSheep): void {
     this.createAndAssignSheep(lamb.name, this.getRandomAdultSheepGender(), lamb.field);
-
-    // TODO it must be the same lamb!
-    lamb.field.removeOneLamb();
+    lamb.field.removeOneLamb(lamb);
   }
 
   private sanitizedField(field: Field | string): Field {
