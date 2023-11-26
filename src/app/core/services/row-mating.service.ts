@@ -23,11 +23,7 @@ export class RowMatingService implements OnDestroy {
       row.setDidMatingProcessOccurRecently(true);
       this.matingStopped$.next(row);
       if (this.wasMatingSuccessful(row)) {
-        this.sheepFactory.createAndAssignSheep(
-          this.lambDefaultName,
-          this.sheepFactory.gender_lamb,
-          row.femaleSheep!.field,
-          false)
+        this.sheepFactory.createLamb(this.lambDefaultName, row.field);
       }
     })).subscribe();
 

@@ -15,19 +15,19 @@ export class RowOfSheepComponent implements OnInit, OnDestroy {
   private readonly VISIBILITY_VISIBLE = 'visible';
   private readonly VISIBILITY_HIDDEN = 'hidden';
 
-  private destroy$: Subject<void> = new Subject();
+  private destroyed$: Subject<void> = new Subject();
 
   constructor(private sheepFactory: SheepFactoryService, private matingService: RowMatingService) {
   }
 
   ngOnInit(): void {
-    this.sheepFactory.getNewSheepEventSubject().pipe(
-      takeUntil(this.destroy$),
+    this.sheepFactory.newSheep$.pipe(
+      takeUntil(this.destroyed$),
       tap(() => this.matingService.startMatingProcessIfPossible(this.row))).subscribe();
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.destroyed$.next();
   }
 
   onFemaleSheepClick(): void {

@@ -39,11 +39,18 @@ export class Field {
   }
 
   removeOneLamb(lamb: LambSheep): void {
-    const indexToDelete = this.allLambSheep.indexOf(lamb);
-    if (indexToDelete >= 0) {
-      this.allSheep.splice(indexToDelete, 1);
+    const indexToDeleteForLambArray = this.lambSheepInside.findIndex(l => l.name === lamb.name);
+    const indexToDeleteForAllArray = this.sheepInside.findIndex(s => s.name === lamb.name);
+    if (indexToDeleteForLambArray >= 0) {
+      this.lambSheepInside.splice(indexToDeleteForLambArray, 1);
     } else {
       throw new Error('Lamb has escaped from growing up, I guess it will be happy forever...');
+    }
+
+    if (indexToDeleteForAllArray >= 0) {
+      this.sheepInside.splice(indexToDeleteForLambArray, 1);
+    } else {
+      throw new Error('Data is desynchronized! I wonder how...');
     }
   }
 

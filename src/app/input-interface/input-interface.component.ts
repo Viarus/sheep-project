@@ -12,7 +12,7 @@ export class InputInterfaceComponent {
   private readonly sheepCreatedMessage = 'Sheep created successfully!'
 
   sheepNameInput = '';
-  selectedGender: string = this.getAllSheepGenders()[0];
+  selectedGender: string = this.sheepFactory.getSheepGenders(true)[0];
   isBrandedSelected = false;
   fieldNameInput = '';
 
@@ -20,7 +20,7 @@ export class InputInterfaceComponent {
   selectedFieldName = '';
 
   constructor(private toastrService: ToastrService,
-              private sheepFactory: SheepFactoryService,
+              public sheepFactory: SheepFactoryService,
               public fieldStorage: FieldStorageService) {
   }
 
@@ -53,10 +53,6 @@ export class InputInterfaceComponent {
 
   noFieldsExist(): boolean {
     return this.fieldStorage.fields.length <= 0;
-  }
-
-  getAllSheepGenders(): string[] {
-    return [...this.sheepFactory.allSheepGenders];
   }
 
   sanitizeSelectInput(): void {

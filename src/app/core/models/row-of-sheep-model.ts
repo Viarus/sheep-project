@@ -1,21 +1,29 @@
 import { FemaleSheep } from './sheep/female-sheep-model';
 import { MaleSheep } from './sheep/male-sheep-model';
 import { AbstractSheep } from "./sheep/abstract-sheep-model";
+import { Field } from "./field-model";
 
 export class RowOfSheep {
   private _femaleSheep: FemaleSheep | undefined;
   private _maleSheep: MaleSheep | undefined;
+  private _field: Field;
   private _isMatingNow: boolean;
   private _didMatingProcessOccurRecently = false;
 
   constructor(femaleSheep: FemaleSheep | undefined,
               maleSheep: MaleSheep | undefined,
+              field: Field,
               isMatingNow: boolean = false,
               didMatingProcessOccurRecently: boolean = false) {
     this._femaleSheep = femaleSheep;
     this._maleSheep = maleSheep;
+    this._field = field;
     this._isMatingNow = isMatingNow;
     this._didMatingProcessOccurRecently = didMatingProcessOccurRecently;
+  }
+
+  get field(): Field {
+    return this._field;
   }
 
   get femaleSheep(): FemaleSheep | undefined {

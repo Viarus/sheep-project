@@ -6,28 +6,39 @@ import { FemaleSheep } from '../models/sheep/female-sheep-model';
 import { LambSheep } from '../models/sheep/lamb-sheep-model';
 import { AbstractSheep } from '../models/sheep/abstract-sheep-model';
 import { FieldStorageService } from '../storages/field-storage.service';
+import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheepFactoryService {
-  private readonly wrongGenderErrorMessage = 'Gender not found. Is your sheep an alien?';
+  readonly gender_lamb = 'LAMB';
   private readonly gender_female = 'FEMALE';
   private readonly gender_male = 'MALE';
-  readonly gender_lamb = 'LAMB';
+  private readonly wrongGenderErrorMessage = 'Gender not found. Is your sheep an alien?';
   private readonly gender_random = 'RANDOM';
+  private readonly timeOfLambGrowth = 12000;
 
-  private newSheepEventSubject: Subject<void> = new Subject<void>();
-  private timeOfLambGrowth = 12000;
+  private _newSheep$: Subject<void> = new Subject<void>();
 
-  constructor(private fieldStorage: FieldStorageService) {
+  constructor(private fieldStorage: FieldStorageService, private errorHandler: ErrorHandlerService) {
   }
 
-  readonly allSheepGenders: string[] = [
-    this.gender_female,
-    this.gender_lamb,
-    this.gender_male
-  ]
+  getSheepGenders(includingRandom: boolean = false): string[] {
+    const genders: string[] = [this.gender_female, this.gender_lamb, this.gender_male];
+    return includingRandom ? [...genders, this.gender_random] : [...genders];
+  }
+
+  createLamb(name: string, field: Field) {
+    const lamb = this.createSheepWithSpecifiedGender(name, this.gender_lamb, field);
+    if (AbstractSheep.isLamb(lamb)) {
+      field.addSheep(lamb, field.numberOfRows);
+      this.startGrowingProcess(lamb);
+      this._newSheep$.next();
+    } else {
+      this.errorHandler.handleError('Lamb was created as an adult... something went horribly wrong!');
+    }
+  }
 
   createAndAssignSheep(name: string, gender: string, fieldOrFieldName: Field | string, isBranded = false): AbstractSheep {
     let newSheep: AbstractSheep;
@@ -39,12 +50,13 @@ export class SheepFactoryService {
       newSheep = this.createSheepWithSpecifiedGender(name, gender, field, isBranded);
     }
     field.addSheep(newSheep, cachedNumberOfRows);
-    this.newSheepEventSubject.next();
+    this._newSheep$.next();
     return newSheep;
   }
 
   getRandomSheepGender(): string {
-    return this.allSheepGenders[Math.floor(Math.random() * this.allSheepGenders.length)];
+    const genders = this.getSheepGenders();
+    return genders[Math.floor(Math.random() * genders.length)];
   }
 
   getRandomAdultSheepGender(): string {
@@ -54,8 +66,8 @@ export class SheepFactoryService {
     return this.gender_male;
   }
 
-  getNewSheepEventSubject(): Subject<void> {
-    return this.newSheepEventSubject;
+  get newSheep$(): Subject<void> {
+    return this._newSheep$;
   }
 
   private createSheepWithSpecifiedGender(name: string, gender: string, field: Field, isBranded = false): AbstractSheep {
@@ -78,8 +90,8 @@ export class SheepFactoryService {
   }
 
   private onLambGrown(lamb: LambSheep): void {
-    this.createAndAssignSheep(lamb.name, this.getRandomAdultSheepGender(), lamb.field);
     lamb.field.removeOneLamb(lamb);
+    this.createAndAssignSheep(lamb.name, this.getRandomAdultSheepGender(), lamb.field);
   }
 
   private sanitizedField(field: Field | string): Field {

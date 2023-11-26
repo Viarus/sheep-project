@@ -16,7 +16,7 @@ export class FemaleSheep extends AbstractSheep {
   }
 
   override createNewRowAndAssignSheepThere(field: Field): void {
-    field.rows.push(new RowOfSheep(this, undefined));
+    field.rows.push(new RowOfSheep(this, undefined, field));
   }
 
   override setRowIndexTheSheepIsAssignedTo(field: Field, value: number) {

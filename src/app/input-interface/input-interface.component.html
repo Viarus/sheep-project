@@ -11,7 +11,7 @@
     </div>
     <div class="flex-child">
       <select class="form-select form-select-sm" [(ngModel)]="selectedGender">
-        <option *ngFor="let sheepGender of getAllSheepGenders()"
+        <option *ngFor="let sheepGender of sheepFactory.getSheepGenders(true)"
                 [ngValue]="sheepGender">{{ sheepGender | titlecase}}</option>
       </select>
     </div>
