@@ -56,11 +56,7 @@ export class RowMatingService implements OnDestroy {
 
   private wasMatingSuccessful(row: RowOfSheep): boolean {
     const allSheep = row.allSheep;
-    if (allSheep.length !== 2 || allSheep.some((sheep) => sheep.isBranded)) {
-      return false;
-    }
-
-    return Math.random() >= 0.5;
+    return (allSheep.length !== 2 || allSheep.some((sheep) => sheep.isBranded)) ? false : Math.random() >= 0.5;
   }
 
   private isPossibleToMate(row: RowOfSheep): boolean {

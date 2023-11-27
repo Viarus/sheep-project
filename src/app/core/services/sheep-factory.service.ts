@@ -18,7 +18,6 @@ export class SheepFactoryService {
   private readonly wrongGenderErrorMessage = 'Gender not found. Is your sheep an alien?';
   private readonly gender_random = 'RANDOM';
 
-
   private _newSheep$: Subject<void> = new Subject<void>();
 
   constructor(private errorHandler: ErrorHandlerService) {

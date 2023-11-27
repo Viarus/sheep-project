@@ -9,13 +9,9 @@ import { ErrorHandlerService } from '../../core/services/error-handler.service';
   styleUrls: ['./field.component.css']
 })
 export class FieldComponent {
-  @Input() field!: Field;
-  private readonly noMoreSheepErrorMessage = 'No more sheep to brand';
+  @Input({required: true}) field!: Field;
 
-
-  constructor(private rowMatingService: RowMatingService,
-              private errorHandler: ErrorHandlerService,
-  ) {
+  constructor(private rowMatingService: RowMatingService, private errorHandler: ErrorHandlerService) {
   }
 
   public onBrandRandom(): void {
@@ -23,7 +19,7 @@ export class FieldComponent {
     if (randomSheep) {
       this.rowMatingService.brandSheep(randomSheep);
     } else {
-      this.errorHandler.handleError(this.noMoreSheepErrorMessage);
+      this.errorHandler.handleError('No more sheep to brand');
     }
   }
 }
